@@ -1,0 +1,16 @@
+.login-container {
+    max-height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/ye/r/YVr3E4VYzmE.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  @media only screen and (max-width: 700px) {
+    .login-container {
+      background-image: none; /* Hide background image on screens less than or equal to 700px */
+    }
+  }
+  
