@@ -1,10 +1,13 @@
+"use client"
 
-import { Provider, SessionProvider } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import NavigationBar from './components/navigationBar';
 
 function MyApp({ Component, pageProps }) {
+  const route=useRouter()
   return (
-    <div>
-      <h3>hiiiiiiiiii</h3>
+    <div className="bg-black w-full h-auto   flex flex-col ">
+      <NavigationBar />
     </div>
   );
 }

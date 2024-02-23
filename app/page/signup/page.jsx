@@ -42,7 +42,7 @@ const Signup = () => {
       const response= await axios.post('http://localhost:9000/api/users/signup',data)
       console.log(response.data._id);
       if(response.status===201){
-        localStorage.setItem("userId",response.data._id)
+        localStorage.setItem("phoneNumber",response.data.phoneNumber)
         return  router.push('/page/verify')
       }
 
@@ -79,6 +79,15 @@ const Signup = () => {
         profilePic:googleProfile
       }
       const response= await axios.post('http://localhost:9000/api/users/signup-google',userData)
+      console.log(response);
+      if(response===201){
+        mutate(null);
+         router.push("/");
+      }
+      else {
+        console.log("Unexpected response:", response);
+      }
+
       console.log(response)
 
     } catch (error) {
@@ -132,12 +141,12 @@ const Signup = () => {
             className="w-full placeholder:ps-2 h-12 rounded-lg bg-stone-700 p-3"
           />
           <button
-            className="bg-white text-black w-80 h-12 rounded-2xl"
+            className="bg-white text-black w-80 h-12 rounded-lg"
             onClick={handleSignUp}
           >
             Sign Up
           </button>
-          <span className="text-center text-stone-700 text-sm hover:text-white">
+          <span className="text-center text-stone-400 text-sm hover:text-white">
             <a href="#" onClick={() => router.push("/page/login")} className="">
               Already have an account?
             </a>
@@ -151,7 +160,7 @@ const Signup = () => {
           <span className="text-center my-3">
 
               <button
-                className="bg-transparent border-y-pink-200  text-white w-80 h-12 rounded-2xl border border-white flex items-center justify-center"
+                className="bg-transparent border-y-pink-200  text-white w-80 h-12 rounded-lg border border-white flex items-center justify-center"
                 onClick={handleGoogleSign}
               >
                 <FcGoogle className="mx-5" /> Signup with Google

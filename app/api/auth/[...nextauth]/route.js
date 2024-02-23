@@ -17,7 +17,7 @@ export const authOptions={
         }),
     ],
     pages:{
-        signIn:"/"
+        signIn:'/'
     },
     debug: process.env.NODE_ENV === "development",
     secret: process.env.NEXT_PUBLIC_SECRET,

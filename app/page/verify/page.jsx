@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 
-const userId = localStorage.getItem("userId")
+const phoneNumber = localStorage.getItem("phoneNumber")
+console.log(phoneNumber);
 const Verify = () => {
     const router=useRouter()
 
@@ -13,10 +14,9 @@ const Verify = () => {
     const handleOtp=async (e)=>{
       e.preventDefault(); 
       const inputOtp=otpRef.current.value; 
-      console.log(userId);
      try {
       const otpData={
-        userId:userId,
+        phoneNumber:phoneNumber,
         enterOTP:inputOtp
       }
       const response=await axios.post('http://localhost:9000/api/users/verifyOTP',otpData)
@@ -44,11 +44,11 @@ const Verify = () => {
           name="number"
           required
 
-          className="w-full placeholder:ps-2 h-12 rounded-2xl bg-stone-800 p-3"
+          className="w-full placeholder:ps-2 h-12 rounded-lg bg-stone-700 p-3"
         />
      
         <button
-          className="bg-white text-black w-80 h-12 rounded-2xl"
+          className="bg-white text-black w-80 h-12 rounded-lg"
         onClick={handleOtp}
         >
           Verify
