@@ -2,7 +2,7 @@
 import React from "react";
 import { MdOutlineSort } from "react-icons/md";
 import { IoCreateOutline } from "react-icons/io5";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi"; 
 import { HiHome, HiUser } from "react-icons/hi2";
 import { GoHeart } from "react-icons/go";
 

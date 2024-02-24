@@ -70,30 +70,30 @@ const Signup = () => {
     }
   }, [session]);
      
-  const handleGoogleSign= async ()=>{
+  const handleGoogleSign = async () => {
+  
     try {
-      await signIn('google')
-      const userData={
-        username:googleUserName,
-        email:googleEmail,
-        profilePic:googleProfile
-      }
-      const response= await axios.post('http://localhost:9000/api/users/signup-google',userData)
+      await signIn('google',{callbackUrl:'/'});
+      const userData = {
+        username: googleUserName,
+        email: googleEmail,
+        profilePic: googleProfile
+      };
+  
+      const response = await axios.post('http://localhost:9000/api/users/signup-google', userData);
       console.log(response);
-      if(response===201){
-        mutate(null);
-         router.push("/");
-      }
-      else {
+  
+      if (response) { // Check response status correctly
+        mutate(null);  
+        router.push("/");
+      } else {
         console.log("Unexpected response:", response);
       }
-
-      console.log(response)
-
+  
     } catch (error) {
-      console.log(error)   
-    } 
-  }
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="w-full h-screen flex justify-center items-center">

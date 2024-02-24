@@ -22,6 +22,7 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       await signIn('google',{
+        callbackUrl:'/',
         onSuccess:async (session)=>{
           await mutate(null);
           await GoogleLogin()

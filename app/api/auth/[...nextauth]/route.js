@@ -16,14 +16,13 @@ export const authOptions={
               }
         }),
     ],
-    pages:{
+    page:{
         signIn:'/'
     },
     debug: process.env.NODE_ENV === "development",
     secret: process.env.NEXT_PUBLIC_SECRET,
     callback:{
         async jwt({ token, user }) {
-            console.log("token from next auth:",token)
             return { ...token, ...user };
           },
           async session({ session, token, user }) {
