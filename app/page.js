@@ -1,14 +1,17 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
-import NavigationBar from './components/navigationBar';
+import NavigationBar from './components/NavigationBar';
+import BottomBar from './components/BottomBar';
+import Home from './page/home/page';
 
 function MyApp({ Component, pageProps }) {
   const route=useRouter()
   return (
-    <div className="bg-black w-full h-auto   flex flex-col ">
+    <div className="bg-black w-full h-auto flex flex-col ">
       <NavigationBar />
-      <button className="bg-white text-black w-60 h-12 rounded-lg" onClick={()=>route.push('/page/login')}>Login</button>
+      <Home />
+      <BottomBar />
     </div>
   );
 }

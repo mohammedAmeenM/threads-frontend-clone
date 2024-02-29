@@ -30,7 +30,7 @@ const Verify = () => {
     }
 
   return (
-    <div>
+    <div >
         <div className="w-full h-screen flex justify-center items-center">
       <div className="flex flex-col justify-between gap-3">
        

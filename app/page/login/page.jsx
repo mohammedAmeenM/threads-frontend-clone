@@ -64,8 +64,10 @@ const Login = () => {
       }
        
       const response=await axios.post('http://localhost:9000/api/users/login',data)
-      console.log(response);
+      console.log(response.data._id,'dfvfv');
       if(response.status===200){
+        localStorage.setItem('jwt',response.data.token)
+        localStorage.setItem('userId',response.data._id)
         return route.push('/')
       }
 
