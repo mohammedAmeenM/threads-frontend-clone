@@ -14,8 +14,8 @@ const Posts = () => {
         const response = await axios.get(
           "http://localhost:9000/api/users/post"
         );
-        setPost(response.data.post);
-        console.log(response.data.post, "gfygfyfytfy");
+        console.log(response)
+        setPost(response.data.posts);  
       } catch (error) {
         console.log(error);
       }
@@ -27,9 +27,9 @@ const Posts = () => {
     <>
     <PostHeads />
     <div className="w-full md:w-[580px] h-screen md:p-2 p-3 flex flex-col justify-between items-center mb-10">
-      {post.map((item, index) => (
+      {post.map((item,index) => ( 
         <div
-          key={item.id}
+          key={index}
           className="h-auto w-full bg-black border-t-[1px] border-white flex border-opacity-30 p-2"
         >
           <div className="h-auto w-fit">
@@ -68,7 +68,7 @@ const Posts = () => {
                 className="font-medium text-white hover:underline"
                 
               >
-               
+              
               </span>
 
               <div className="flex justify-between gap-3 items-center ">
@@ -105,7 +105,9 @@ const Posts = () => {
             </div> */}
           </div>
         </div>
-      ))}
+         ))
+        }
+
     </div>
   </>
   );
