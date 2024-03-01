@@ -25,7 +25,7 @@ const PostHeads = () => {
           className="w-3/2 mx-4 text-white text-opacity-40 text-md   h-full flex justify-center items-center "
           onClick={() => router.push("/page/create")}
         >
-          Start thread ...
+          Start threads ......
         </button>
       </div>
       <button className=" px-5 py-2 md:flex hidden  rounded-full bg-white text-black font-medium   bg-opacity-40">

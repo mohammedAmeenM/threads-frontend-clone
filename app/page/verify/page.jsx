@@ -21,7 +21,7 @@ const Verify = () => {
       }
       const response=await axios.post('http://localhost:9000/api/users/verifyOTP',otpData)
       if(response.status===200){
-        return router.push('/page/login')
+        return router.push('/')
       }
       console.log(response);
      } catch (error) {

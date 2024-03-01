@@ -17,6 +17,10 @@ const NavigationBar = () => {
     console.log("Current theme:", theme);
     setTheme(theme === "dark" ? "light" : "dark");
   };
+  const handleLogout=()=>{
+    localStorage.clear()
+    return router.push('/page/login')
+  }
   return (
     <div
       className={`w-full h-auto mt-0 p-5 flex  justify-between items-center sticky top-0 bg-opacity-90 bg-black text-white`}
@@ -86,7 +90,7 @@ const NavigationBar = () => {
         </button>
         <button
           className={`btn h-auto px-7  py-5 bg-transparent hover:bg-stone-800  rounded-lg flex border-none flex-col justify-center items-center `}
-          
+          onClick={()=>router.push('/page/profile')}
         >
           <HiUser className={`text-3xl text-white text-opacity-50 hover:text-opacity-90 ` } />
         </button>
@@ -103,7 +107,7 @@ const NavigationBar = () => {
             <a onClick={handleToggleTheme}>Switch Appearance</a>
           </DropdownItem>
           <DropdownItem className="py-1"> 
-            <a >Log out</a>
+            <a  onClick={handleLogout}>Log out</a>
           </DropdownItem>
           <DropdownItem className="py-1">
             <a onClick={() => router.push("/page/login")}>Sign up</a>

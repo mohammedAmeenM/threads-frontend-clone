@@ -15,14 +15,16 @@ const Posts = () => {
           "http://localhost:9000/api/users/post"
         );
         console.log(response)
+        // const listPostById=response.data.posts.map((item)=>item.postById)
         setPost(response.data.posts);  
+       
       } catch (error) {
         console.log(error);
       }
     };
     getPosts();
   }, []);
-
+console.log(post,'hvbdbhjgdfjhdsbgjhdbgjhdbfsjh')
   return (
     <>
     <PostHeads />
@@ -37,7 +39,11 @@ const Posts = () => {
               <div
                 className="h-10 w-10 rounded-full bg-white box-border "
                 style={{
-                  backgroundImage: `url(${"https://cdn-icons-png.flaticon.com/512/6596/6596121.png"})`,
+                  backgroundImage: `url(${
+                    item?.postById?.profilePic
+                      ? item?.postById?.profilePic
+                      : "https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                  })`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
@@ -68,7 +74,7 @@ const Posts = () => {
                 className="font-medium text-white hover:underline"
                 
               >
-              
+              {item?.postById?.username}
               </span>
 
               <div className="flex justify-between gap-3 items-center ">
