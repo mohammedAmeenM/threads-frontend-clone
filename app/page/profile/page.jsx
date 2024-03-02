@@ -1,18 +1,46 @@
-import React from 'react'
+"use client"
+import NavigationBar from '@/app/components/NavigationBar';
+import axios from 'axios';
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react';
+
+
+const userId=localStorage.getItem('userId')
+console.log(userId)
 
 const page = () => {
+  const router=useRouter();
+  const [profile,setProfile]=useState([])
+  const [followers,setFollowers]=useState([])
+
+  const getProfile=async()=>{
+    try {
+      const response= await axios.get(`http://localhost:9000/api/users/profile/${userId}`)
+      console.log(response.data.user)
+      setProfile(response.data.user)
+    } catch (error) {
+      console.log('error profile',error)
+    }
+  }
+  
+  useEffect(()=>{
+    getProfile();
+  },[])
+
   return (
-    <>
-       <div className="w-full md:w-[580px] h-full  md:p-2 p-3 flex flex-col  justify-between items-center   ">
+  <>
+  <NavigationBar />
+    <div  style={{display:'flex',justifyContent:'center'}}>
+       <div className="w-full md:w-[580px] md:p-2 p-3 items-center  flex flex-col   mb-10">
         <div className="h-auto w-full flex justify-between   p-2">
-          <div className=" w-1/2 h-auto flex flex-col justify-start">
-            <span>Ameeen____ </span>
+          <div className=" w-1/2 h-auto flex flex-col ">
+            <span className='font-bold text-xl'>{profile.username}</span>
 
     
 
             <div className="flex gap-1">
-              <span>Ameeennn..</span>
-              <button className="bg-stone-900 w-[90px] text-xs rounded-xl text-white text-opacity-20 ">
+              <span>{profile.name}</span>
+              <button className="bg-stone-900 w-[90px] text-xs rounded-xl text-white text-opacity-30 ">
                 threads.net
               </button>
             </div>
@@ -37,11 +65,11 @@ const page = () => {
               
            
 
-              <span className="mt-4 text-white text-opacity-20 mx-8 hover:underline" 
+              <span className="mt-4 text-white text-opacity-40 mx-8 hover:underline" 
               
               >
                 {" "}
-                followers
+               {profile?.followers?.length}  followers
               </span>
             </div>
           </div>
@@ -50,15 +78,15 @@ const page = () => {
               className="h-16 w-16 rounded-full bg-white box-border md:h-20 md:w-20"
               style={{
                 backgroundImage: `url(${
-                 
-                    "https://i0.wp.com/www.spielanime.com/wp-content/uploads/2023/07/jujutsu-kaisen-season-1-recap-before-season-2.jpg?fit=1024%2C576&ssl=1"
+                  profile.profilePic?profile.profilePic:
+                    "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
                 })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             ></div>
             <div className="text-2xl ml-12 mt-5">
-  {" "}
+                       {" "}
             </div>
           </div>
         </div>
@@ -70,6 +98,7 @@ const page = () => {
        
         </div> 
       </div>
+    </div>
     </>
   )
 }

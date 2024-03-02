@@ -61,7 +61,7 @@ const NavigationBar = () => {
       <div className=" text-white font-thin h-auto md:flex hidden  ">
         <button
           className={`btn h-auto px-7 py-5 bg-transparent hover:bg-stone-800 border-none  rounded-lg flex flex-col justify-center items-center '} `}
-         
+         onClick={()=>router.push('/')}
         >
           <GrHomeRounded
             className={`text-3xl text-white text-opacity-50 hover:text-opacity-90`}
