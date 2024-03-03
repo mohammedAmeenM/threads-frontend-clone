@@ -4,9 +4,19 @@ import { MdAddCircle } from "react-icons/md";
 import { IoIosMore } from "react-icons/io";
 import PostHeads from "./PostHeads";
 import axios from "axios";
+import Like from "./Like";
+import Comment from "./Comment";
+import Repost from "./Repost";
+import Share from "./Share";
+import { useRouter } from "next/navigation";
 
 const Posts = () => {
+  const router=useRouter();
   const [post, setPost] = useState([]);
+
+  const handleProfile=(userId)=>{
+     router.push(`/page/user/${userId}`);
+  }
 
   useEffect(() => {
     const getPosts = async () => {
@@ -71,8 +81,8 @@ console.log(post,'hvbdbhjgdfjhdsbgjhdbgjhdbfsjh')
           <div className=" w-full h-full bg-black flex flex-col">
             <div className="w-full flex m-3 justify-between gap-3 items-center">
               <span
-                className="font-medium text-white hover:underline"
-                
+                className="font-medium text-white hover:underline cursor-pointer"
+                onClick={() => handleProfile(item.postById._id)}
               >
               {item?.postById?.username}
               </span>
@@ -98,13 +108,14 @@ console.log(post,'hvbdbhjgdfjhdsbgjhdbgjhdbfsjh')
                
               </div>
             </div>
-            {/* <div className="flex gap-1 mx-2 mt-10 items-center">
-              <Like postId={item._id} index={index} username={item.postedBy.username}/>
-              <Coment postId={item._id} index={index}  />{" "} 
-              <Repost /> <Share />
+            <div className="flex gap-1 mx-2 mt-10 items-center">
+              <Like />
+              <Comment   />{" "} 
+              <Repost />
+               <Share />
 
             </div>
-            <Reply /> */}
+           
             {/* <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
               <span>{item.replies.length} replies .</span>
               <span>{item.likes.length} likes</span>
