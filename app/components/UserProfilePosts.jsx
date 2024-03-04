@@ -7,9 +7,8 @@ import Repost from "./Repost";
 import Share from "./Share";
 import Comment from "./Comment";
 import axios from "axios";
-const userId=localStorage.getItem('userId')
 
-const ProfilePosts = () => {
+const UserProfilePost = ({ userId }) => {
     const [post,setPost]=useState([])
     const [isOpen, setIsOpen] = useState(false);
 
@@ -155,4 +154,4 @@ const ProfilePosts = () => {
   )
 }
 
-export default ProfilePosts
+export default UserProfilePost

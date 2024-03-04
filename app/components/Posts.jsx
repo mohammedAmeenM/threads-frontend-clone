@@ -15,6 +15,7 @@ const Posts = () => {
   const [post, setPost] = useState([]);
 
   const handleProfile=(userId)=>{
+
      router.push(`/page/user/${userId}`);
   }
 
@@ -82,7 +83,7 @@ console.log(post,'hvbdbhjgdfjhdsbgjhdbgjhdbfsjh')
             <div className="w-full flex m-3 justify-between gap-3 items-center">
               <span
                 className="font-medium text-white hover:underline cursor-pointer"
-                onClick={() => handleProfile(item.postById._id)}
+                onClick={() => handleProfile(item?.postById?._id)}
               >
               {item?.postById?.username}
               </span>

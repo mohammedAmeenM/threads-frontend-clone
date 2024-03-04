@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineSort } from "react-icons/md";
 import { IoCreateOutline } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi"; 
@@ -12,6 +12,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 
 const NavigationBar = () => {
   const router=useRouter()
+
   const { theme, setTheme } = useTheme(); 
   const handleToggleTheme = () => {
     console.log("Current theme:", theme);

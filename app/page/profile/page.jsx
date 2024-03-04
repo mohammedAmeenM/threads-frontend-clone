@@ -16,7 +16,7 @@ import Reposts from '@/app/components/Reposts';
 const userId=localStorage.getItem('userId')
 console.log(userId)
 
-const page = () => {
+const Page = () => {
   const router=useRouter();
   const [profile,setProfile]=useState([])
   const [followers,setFollowers]=useState([])
@@ -116,4 +116,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
