@@ -11,6 +11,7 @@ import ProfileReplyPosts from '@/app/components/ProfileReplyPosts';
 import Threads from '@/app/components/Threads';
 import Replies from '@/app/components/Replies';
 import Reposts from '@/app/components/Reposts';
+import EditProfile from '@/app/components/Models/EditProfile';
 
 
 const userId=localStorage.getItem('userId')
@@ -99,6 +100,7 @@ const Page = () => {
           </div>
         </div>
         <button className="w-full h-10 bg-transparent border border-opacity-20 border-white text-center rounded-md mt-3"
+        onClick={() => document.getElementById('my_modal_3').showModal()}
         >
           Edit Profile
         </button>
@@ -107,6 +109,7 @@ const Page = () => {
           <Replies />
           <Reposts />
         </div> 
+        <EditProfile />
       {selected === "profileRepliPost" && <ProfileReplyPosts />}
       {selected === "repost" && <ProfileRepost />}
       {!selected && <ProfilePosts />}

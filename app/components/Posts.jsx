@@ -11,6 +11,7 @@ import Share from "./Share";
 import { useRouter } from "next/navigation";
 
 const Posts = () => {
+  const userId=localStorage.getItem('userId')
   const router=useRouter();
   const [post, setPost] = useState([]);
 
@@ -35,7 +36,6 @@ const Posts = () => {
     };
     getPosts();
   }, []);
-console.log(post,'hvbdbhjgdfjhdsbgjhdbgjhdbfsjh')
   return (
     <>
     <PostHeads />
@@ -110,17 +110,17 @@ console.log(post,'hvbdbhjgdfjhdsbgjhdbgjhdbfsjh')
               </div>
             </div>
             <div className="flex gap-1 mx-2 mt-10 items-center">
-              <Like />
+            <Like userId={userId} postId={item._id} />
               <Comment   />{" "} 
               <Repost />
                <Share />
 
             </div>
            
-            {/* <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
-              <span>{item.replies.length} replies .</span>
+            <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
+              {/* <span>{item.replies.length} replies .</span> */}
               <span>{item.likes.length} likes</span>
-            </div> */}
+            </div>
           </div>
         </div>
          ))
