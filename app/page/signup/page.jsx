@@ -43,6 +43,7 @@ const Signup = () => {
       console.log(response.data._id);
       if(response.status===201){
         localStorage.setItem("phoneNumber",response.data.phoneNumber)
+        localStorage.setItem("userId",response.data._id)
         return  router.push('/page/verify')
       }
 

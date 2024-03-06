@@ -52,6 +52,7 @@ const Page = () => {
                 threads.net
               </button>
             </div>
+            <span className='  mt-6'>{profile.bio}</span>
 
             <div className="flex justify-stretch ">
              
@@ -62,8 +63,9 @@ const Page = () => {
 
                       style={{
                         backgroundImage: `url(${
-                          
-                             "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
+                          profile.profilePic 
+                            ? profile.profilePic
+                            : "https://i0.wp.com/www.spielanime.com/wp-content/uploads/2023/07/jujutsu-kaisen-season-1-recap-before-season-2.jpg?fit=1024%2C576&ssl=1"
                         })`,
                         backgroundSize: "contain",
                       }}
@@ -73,6 +75,7 @@ const Page = () => {
               
            
                 {" "}{" "}
+             
               <span className="mt-4 text-white text-opacity-40 mx-8 hover:underline" 
               
               >

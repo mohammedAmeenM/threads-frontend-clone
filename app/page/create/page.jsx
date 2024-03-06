@@ -48,7 +48,7 @@ const Page = () => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      setPreviewImage(URL.createObjectURL(file)); // Update preview image URL
+      setPreviewImage(URL.createObjectURL(file)); 
     }
   };
 
