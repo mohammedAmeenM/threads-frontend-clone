@@ -1,8 +1,18 @@
 "use client"
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const PostHeads = () => {
+
+  const [profilePic,setProfilePic]=useState(null)
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem('user'));
+    console.log(user)
+    if (user && user.profilePic) {
+      console.log(user.profilePic)
+      setProfilePic(user.profilePic);
+    }
+  }, []);
     const router=useRouter()
   return (
     <>
@@ -11,9 +21,11 @@ const PostHeads = () => {
         <div
           className="h-10 w-10 rounded-full bg-white box-border "
           style={{
-            backgroundImage: `url(${
-                "https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
-             })`,
+            backgroundImage:`url(${
+              profilePic
+                ? profilePic
+                : "https://i0.wp.com/www.spielanime.com/wp-content/uploads/2023/07/jujutsu-kaisen-season-1-recap-before-season-2.jpg?fit=1024%2C576&ssl=1"
+            })`,
             backgroundSize: "contain",
             backgroundSize: "cover",
           }}

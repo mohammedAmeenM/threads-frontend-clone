@@ -14,10 +14,12 @@ import Reposts from '@/app/components/Reposts';
 import EditProfile from '@/app/components/Models/EditProfile';
 
 
-const userId=localStorage.getItem('userId')
-console.log(userId)
+
+
 
 const Page = () => {
+  const user = JSON.parse(window.localStorage.getItem('user'));
+  const userId = user._id
   const router=useRouter();
   const [profile,setProfile]=useState([])
   const [followers,setFollowers]=useState([])
@@ -65,7 +67,7 @@ const Page = () => {
                         backgroundImage: `url(${
                           profile.profilePic 
                             ? profile.profilePic
-                            : "https://i0.wp.com/www.spielanime.com/wp-content/uploads/2023/07/jujutsu-kaisen-season-1-recap-before-season-2.jpg?fit=1024%2C576&ssl=1"
+                            : "https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
                         })`,
                         backgroundSize: "contain",
                       }}

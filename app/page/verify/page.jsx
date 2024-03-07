@@ -4,11 +4,12 @@ import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 
-const phoneNumber = localStorage.getItem("phoneNumber")
-console.log(phoneNumber);
 const Verify = () => {
-    const router=useRouter()
-
+  const user = JSON.parse(window.localStorage.getItem('user'))
+  const phoneNumber=user.phoneNumber
+  console.log(phoneNumber);
+  const router=useRouter()
+ 
     const otpRef=useRef(null);
 
     const handleOtp=async (e)=>{

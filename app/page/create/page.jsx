@@ -9,6 +9,12 @@ const userId = localStorage.getItem('userId');
 console.log(userId)
 
 const Page = () => {
+
+const user = JSON.parse(window.localStorage.getItem('user'))
+const userId=user._id
+const username=user.username;
+const profilePic = user.profilePic;
+
   const router = useRouter();
   const [text, setText] = useState('');
   const [image, setImage] = useState(null);
@@ -70,7 +76,7 @@ const Page = () => {
                     className="w-8 h-8 rounded-full bg-white"
                     style={{
                       backgroundImage: `url(${
-                        'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'
+                        profilePic?profilePic:'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'
                       })`,
                       backgroundSize: 'cover',
                       backgroundRepeat: 'no-repeat',
@@ -81,7 +87,7 @@ const Page = () => {
                   <div className="w-3 h-3 rounded-full bg-white ms-[9px] "></div>
                 </div>
                 <div className="w-auto h-auto flex justify-start items-start flex-col ms-3 mt-3 relative">
-                  <span className=" w-full h-9 text-white">ameen</span>
+                  <span className=" w-full h-9 text-white">{username}</span>
                   <textarea
                     type="text"
                     name="text"

@@ -11,7 +11,8 @@ import Share from "./Share";
 import { useRouter } from "next/navigation";
 
 const Posts = () => {
-  const userId=localStorage.getItem('userId')
+  const user = JSON.parse(window.localStorage.getItem('user'))
+  const userId=user._id
   const router=useRouter();
   const [post, setPost] = useState([]);
 

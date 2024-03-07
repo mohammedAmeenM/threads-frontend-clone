@@ -42,11 +42,9 @@ const Signup = () => {
       const response= await axios.post('http://localhost:9000/api/users/signup',data)
       console.log(response.data._id);
       if(response.status===201){
-        localStorage.setItem("phoneNumber",response.data.phoneNumber)
-        localStorage.setItem("userId",response.data._id)
+        localStorage.setItem("user",JSON.stringify(response.data))
         return  router.push('/page/verify')
       }
-
     } catch (error) {
       console.log(error,'signupppp')
     }

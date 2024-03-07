@@ -16,7 +16,8 @@ import UserProfilePost from "@/app/components/UserProfilePosts";
 
 
 const Page = () => {
-  const logUserId=localStorage.getItem('userId')
+  const users = JSON.parse(window.localStorage.getItem('user'))
+  const logUserId =users._id
   console.log(logUserId)
   const router=useRouter()
   const {userId}=useParams()
@@ -75,7 +76,7 @@ const Page = () => {
               threas.net
             </button>
           </div>
-
+          <span className='  mt-6'>{user.bio}</span>
           <div className="flex justify-stretch ">
             <div
               className="w-4 h-4 rounded-full bg-white mt-5"
@@ -104,7 +105,7 @@ const Page = () => {
             className="h-16 w-16 rounded-full bg-white box-border md:h-20 md:w-20"
             style={{
               backgroundImage: `url(${
-                "https://i0.wp.com/www.spielanime.com/wp-content/uploads/2023/07/jujutsu-kaisen-season-1-recap-before-season-2.jpg?fit=1024%2C576&ssl=1"
+                  user.profilePic?user.profilePic:"https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
                    
                   })`,
                   backgroundSize: "cover",

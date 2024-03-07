@@ -7,7 +7,9 @@ const EditProfile = () => {
 
   const router=useRouter()
 
-  const userId=localStorage.getItem('userId')
+  const user=JSON.parse(window.localStorage.getItem('user'))
+  const userId = user._id;
+
   const [name,setName]=useState('');
   const [username,setUsername]=useState('');
   const [email,setEmail]=useState('');
@@ -66,6 +68,7 @@ const handleSubmit=async()=>{
   try {
     const response= await axios.patch(`http://localhost:9000/api/users/updateProfile/${userId}`,formdata)
     if(response.status===200){
+      localStorage.setItem("user",JSON.stringify(response.data.user))
       return router.push('/page/profile')
     }
   } catch (error) {
