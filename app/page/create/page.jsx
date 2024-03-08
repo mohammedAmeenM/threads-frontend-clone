@@ -4,6 +4,8 @@ import { IoImagesOutline } from 'react-icons/io5';
 import { CgMoreO } from 'react-icons/cg';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import BottomBar from '@/app/components/BottomBar';
+import NavigationBar from '@/app/components/NavigationBar';
 
 const userId = localStorage.getItem('userId');
 console.log(userId)
@@ -59,7 +61,9 @@ const profilePic = user.profilePic;
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+    <>
+   <NavigationBar />
+    <div className="fixed top-0 pt-16 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <form encType="multipart/form-data">
         <div className="w-full h-[400px] max-w-lg mx-auto p-8 bg-stone-900 rounded-3xl">
           <div className="w-full h-5 flex justify-between">
@@ -142,6 +146,8 @@ const profilePic = user.profilePic;
         </button>
       </div>
     </div>
+    <BottomBar />
+    </>
   );
 };
 

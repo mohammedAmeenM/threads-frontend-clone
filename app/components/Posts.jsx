@@ -112,7 +112,7 @@ const Posts = () => {
             </div>
             <div className="flex gap-1 mx-2 mt-10 items-center">
             <Like userId={userId} postId={item._id} />
-              <Comment   />{" "} 
+              <Comment userId={item._id}   />{" "} 
               <Repost />
                <Share />
 

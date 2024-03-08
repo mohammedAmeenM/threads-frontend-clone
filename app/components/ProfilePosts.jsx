@@ -7,9 +7,13 @@ import Repost from "./Repost";
 import Share from "./Share";
 import Comment from "./Comment";
 import axios from "axios";
-const userId=localStorage.getItem('userId')
+
 
 const ProfilePosts = () => {
+
+    const user= JSON.parse(window.localStorage.getItem('user'));
+    const userId = user._id
+
     const [post,setPost]=useState([])
     const [isOpen, setIsOpen] = useState(false);
 
