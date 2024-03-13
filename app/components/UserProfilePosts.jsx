@@ -20,7 +20,6 @@ const UserProfilePost = ({ userId }) => {
     const getUserPost=async()=>{
         try {
             const response=await axios.get(`http://localhost:9000/api/users/post/${userId}`)
-            console.log(response.data.post)
             setPost(response.data.post)
         } catch (error) {
             console.log('error get user post',error)

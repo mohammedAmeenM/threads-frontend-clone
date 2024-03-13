@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
@@ -41,10 +42,12 @@ const Login = () => {
       const response= await axios.post('http://localhost:9000/api/users/google-login',userData);
       console.log(response);
       if(response){
+        toast.success('login success')
         route.push('/')
       }
     } catch (error) {
       console.log(error);
+      toast.error('error login')
     }
   }
 
@@ -65,12 +68,14 @@ const Login = () => {
        
       const response=await axios.post('http://localhost:9000/api/users/login',data)
       if(response.status===200){
+        toast.success('login success')
         localStorage.setItem('user',JSON.stringify(response.data))
         return route.push('/')
       }
 
     } catch (error) {
       console.log(error,'login');
+      toast.error('error login')
     }
   }
   return (

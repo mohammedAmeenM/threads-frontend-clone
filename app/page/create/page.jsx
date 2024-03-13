@@ -1,21 +1,30 @@
 "use client"
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoImagesOutline } from 'react-icons/io5';
 import { CgMoreO } from 'react-icons/cg';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import BottomBar from '@/app/components/BottomBar';
 import NavigationBar from '@/app/components/NavigationBar';
+import { toast } from 'react-toastify';
 
-const userId = localStorage.getItem('userId');
-console.log(userId)
+
 
 const Page = () => {
+  const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [profilePic, setProfilePic] = useState(null);
+  const [username, setUsername] = useState(null);
 
-const user = JSON.parse(window.localStorage.getItem('user'))
-const userId=user._id
-const username=user.username;
-const profilePic = user.profilePic;
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem('user'));
+    if (user) {
+      setUser(user);
+      setUserId(user._id);
+      setProfilePic(user.profilePic);
+      setUsername(user.username);
+    }
+  }, []);
 
   const router = useRouter();
   const [text, setText] = useState('');
@@ -38,6 +47,7 @@ const profilePic = user.profilePic;
       const response = await axios.post('http://localhost:9000/api/users/post', formData);
       console.log(response);
       if(response.status===201){
+        toast.success('created')
         return router.push('/')
       }
     } catch (error) {

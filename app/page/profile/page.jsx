@@ -18,26 +18,35 @@ import EditProfile from '@/app/components/Models/EditProfile';
 
 
 const Page = () => {
-  const user = JSON.parse(window.localStorage.getItem('user'));
-  const userId = user._id
+  
+  const [user, setUser]= useState(null)
   const router=useRouter();
   const [profile,setProfile]=useState([])
   const [followers,setFollowers]=useState([])
   const {selected}=usePosts()
 
-  const getProfile=async()=>{
-    try {
-      const response= await axios.get(`http://localhost:9000/api/users/profile/${userId}`)
-      console.log(response.data.user)
-      setProfile(response.data.user)
-    } catch (error) {
-      console.log('error profile',error)
-    }
-  }
   
-  useEffect(()=>{
-    getProfile();
-  },[])
+  useEffect(() => {
+    const storedUser = window.localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      const getProfile = async () => {
+        try {
+          const response = await axios.get(`http://localhost:9000/api/users/profile/${user._id}`);
+          console.log(response.data.user);
+          setProfile(response.data.user);
+        } catch (error) {
+          console.log('error profile', error);
+        }
+      };
+      getProfile();
+    }
+  }, [user]);
 
   return (
   <>

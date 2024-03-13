@@ -16,9 +16,8 @@ import UserProfilePost from "@/app/components/UserProfilePosts";
 
 
 const Page = () => {
-  const users = JSON.parse(window.localStorage.getItem('user'))
-  const logUserId =users._id
-  console.log(logUserId)
+
+
   const router=useRouter()
   const {userId}=useParams()
   const {selected}=usePosts()
@@ -26,6 +25,7 @@ const Page = () => {
   const [isFollowing, setIsFollowing] = useState(false); 
 
 
+  useEffect(() => {
   const getUserById = async () => {
     try {
       const response = await axios.get(`http://localhost:9000/api/users/profile/${userId}`);
@@ -38,7 +38,8 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
+    const users = JSON.parse(window.localStorage.getItem('user'));
+    const logUserId = users ? users._id : null;
     getUserById();
   }, []);
 

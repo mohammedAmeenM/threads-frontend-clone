@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 
 
@@ -43,10 +44,12 @@ const Signup = () => {
       console.log(response.data._id);
       if(response.status===201){
         localStorage.setItem("user",JSON.stringify(response.data))
+        toast.success('created')
         return  router.push('/page/verify')
       }
     } catch (error) {
       console.log(error,'signupppp')
+      toast.error('error')
     }
   }
 
@@ -84,6 +87,7 @@ const Signup = () => {
   
       if (response) { // Check response status correctly
         mutate(null);  
+        toast.success('created')
         router.push("/");
       } else {
         console.log("Unexpected response:", response);
@@ -91,6 +95,7 @@ const Signup = () => {
   
     } catch (error) {
       console.log(error);
+      toast.error('error')
     }
   };
   return (

@@ -11,28 +11,32 @@ import axios from "axios";
 
 const ProfilePosts = () => {
 
-    const user= JSON.parse(window.localStorage.getItem('user'));
-    const userId = user._id
+  const userData = JSON.parse(window.localStorage.getItem('user'));
+  const userId = userData ? userData._id : null;
 
-    const [post,setPost]=useState([])
-    const [isOpen, setIsOpen] = useState(false);
+  const [post, setPost] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(()=>{
-    const getUserPost=async()=>{
-        try {
-            const response=await axios.get(`http://localhost:9000/api/users/post/${userId}`)
-            console.log(response.data.post)
-            setPost(response.data.post)
-        } catch (error) {
-            console.log('error get user post',error)
+  useEffect(() => {
+    const getUserPost = async () => {
+      try {
+        if (userId) {
+          const response = await axios.get(`http://localhost:9000/api/users/post/${userId}`);
+          console.log(response.data.post);
+          setPost(response.data.post);
+        } else {
+          console.log('User ID is null');
         }
-    }
-    getUserPost()
-  },[])
+      } catch (error) {
+        console.log('Error fetching user post', error);
+      }
+    };
+    getUserPost();
+  }, [userId]);
   return (
     <>
     {post.length === 0 ? (

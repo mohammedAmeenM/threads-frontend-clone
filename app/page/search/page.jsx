@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 const Page = () => {
   const user = JSON.parse(window.localStorage.getItem("user"));
   const logUserId = user ? user._id : null; // Handle potential undefined user
-  console.log(logUserId);
+
 
   const router = useRouter();
 

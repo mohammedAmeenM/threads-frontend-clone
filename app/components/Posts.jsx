@@ -11,10 +11,20 @@ import Share from "./Share";
 import { useRouter } from "next/navigation";
 
 const Posts = () => {
-  const user = JSON.parse(window.localStorage.getItem('user'))
-  const userId=user._id
+  
   const router=useRouter();
   const [post, setPost] = useState([]);
+  const [user,setUser]=useState(null)
+
+
+  useEffect(() => {
+    const storedUser = window.localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const userId = user ? user._id : null;
 
   const handleProfile=(userId)=>{
 
@@ -27,7 +37,6 @@ const Posts = () => {
         const response = await axios.get(
           "http://localhost:9000/api/users/post"
         );
-        console.log(response)
         // const listPostById=response.data.posts.map((item)=>item.postById)
         setPost(response.data.posts);  
        
@@ -112,7 +121,7 @@ const Posts = () => {
             </div>
             <div className="flex gap-1 mx-2 mt-10 items-center">
             <Like userId={userId} postId={item._id} />
-              <Comment userId={item._id}   />{" "} 
+            <Comment postId={item._id} />
               <Repost />
                <Share />
 

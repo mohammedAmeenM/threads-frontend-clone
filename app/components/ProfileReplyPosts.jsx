@@ -1,13 +1,33 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdAddCircle } from "react-icons/md";
 import { IoIosMore } from "react-icons/io";
 import Like from './Like';
 import Comment from './Comment';
 import Repost from './Repost';
 import Share from './Share';
+import axios from 'axios';
 
 const ProfileReplyPosts = () => {
+  const user = JSON.parse(window.localStorage.getItem('user'));
+  const userId=user._id
+
+  const [reply,setReply]=useState([])
+
+  useEffect(()=>{
+    const getReply= async ()=>{
+      try {
+        const response = await axios.get(`http://localhost:9000/api/users/post/user/reply/${userId}`)
+        console.log(response)
+        if(response.status===200){
+          setReply(response.data.posts)
+        }
+      } catch (error) {
+        console.log('error get replay ',error)
+      }
+    }
+    getReply()
+  },[])
   return (
     
   <> 

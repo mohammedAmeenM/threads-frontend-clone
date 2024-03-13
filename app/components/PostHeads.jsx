@@ -9,7 +9,6 @@ const PostHeads = () => {
     const user = JSON.parse(window.localStorage.getItem('user'));
     console.log(user)
     if (user && user.profilePic) {
-      console.log(user.profilePic)
       setProfilePic(user.profilePic);
     }
   }, []);

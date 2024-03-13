@@ -2,79 +2,77 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import { BsPersonFillAdd } from "react-icons/bs";
+import { toast } from 'react-toastify';
 
 const EditProfile = () => {
 
-  const router=useRouter()
+  const router = useRouter();
 
-  const user=JSON.parse(window.localStorage.getItem('user'))
+  const user = typeof window !== 'undefined' ? JSON.parse(window.localStorage.getItem('user')) || {} : {};
   const userId = user._id;
 
-  const [name,setName]=useState('');
-  const [username,setUsername]=useState('');
-  const [email,setEmail]=useState('');
-  const [bio,setBio]=useState('');
-  const [profilePic,setProfilePic]=useState(null);
-  const [previewImage, setPreviewImage] = useState(null); 
+  const [name, setName] = useState(user.name || '');
+  const [username, setUsername] = useState(user.username || '');
+  const [email, setEmail] = useState(user.email || '');
+  const [bio, setBio] = useState(user.bio || '');
+  const [profilePic, setProfilePic] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
+  const fileInputRef = useRef(null);
 
-//reff image-----
-  const fileInputRef=useRef(null)
-
-  
-const handleImageClick= (e)=>{
-  e.preventDefault();
-  if (fileInputRef.current) {
-    fileInputRef.current.click();
-  }
-}
-const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setProfilePic(file);
-    setPreviewImage(URL.createObjectURL(file)); 
-  }
-};
-
-
-const fetchProfile=async()=>{
-  try {
-    console.log('hiiiii')
-    const response= await axios.get(`http://localhost:9000/api/users/profile/${userId}`)
-    if(response.status===200){
-      setName(response.data.user.name)
-      setUsername(response.data.user.username)
-      setEmail(response.data.user.email)
-      setBio(response.data.user.bio)
-      setProfilePic(response.data.user.profilePic)
+  const handleImageClick = (e) => {
+    e.preventDefault();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
-    console.log(response.data.user.name,'helloo')
-  } catch (error) {
-    console.log('error fetch user profile',error)
-  }
-}
-useEffect(()=>{
-  fetchProfile()
-},[])
+  };
 
-const formdata= new FormData()
-formdata.append("name",name)
-formdata.append("username",username)
-formdata.append("email",email)
-formdata.append("bio",bio)
-formdata.append("profilePic",profilePic)
-
-const handleSubmit=async()=>{
-  try {
-    const response= await axios.patch(`http://localhost:9000/api/users/updateProfile/${userId}`,formdata)
-    if(response.status===200){
-      localStorage.setItem("user",JSON.stringify(response.data.user))
-      return router.push('/page/profile')
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfilePic(file);
+      setPreviewImage(URL.createObjectURL(file)); 
     }
-  } catch (error) {
-      console.log('error edit',error)
-  }
-}
+  };
+
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get(`http://localhost:9000/api/users/profile/${userId}`);
+      if (response.status === 200) {
+        setName(response.data.user.name);
+        setUsername(response.data.user.username);
+        setEmail(response.data.user.email);
+        setBio(response.data.user.bio);
+        setProfilePic(response.data.user.profilePic);
+      }
+    } catch (error) {
+      console.log('Error fetching user profile:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      const formdata = new FormData();
+      formdata.append("name", name);
+      formdata.append("username", username);
+      formdata.append("email", email);
+      formdata.append("bio", bio);
+      formdata.append("profilePic", profilePic);
+
+      const response = await axios.patch(`http://localhost:9000/api/users/updateProfile/${userId}`, formdata);
+      if (response.status === 200) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        toast.success('Successfully edited profile');
+        return router.push('/page/profile');
+      }
+    } catch (error) {
+      console.log('Error editing profile:', error);
+    }
+  };
 
   return (
     <>
@@ -85,7 +83,6 @@ const handleSubmit=async()=>{
           className="modal-content"
          
         >
-          {/* {console.log(profile.user._id)} */}
           <div className="w-full h-full flex flex-col justify-center items-center gap-y-2 text-white">
             <div className="w-full h-full flex flex-col gap-y-2 text-white">
               <div className="w-full h-full flex justify-between ">
@@ -117,7 +114,7 @@ const handleSubmit=async()=>{
                     ) : profilePic ? (
                       <img
                         src={profilePic}
-                        alt=""
+                        alt="profile"
                         className="h-full w-full rounded-full"
                         style={{
                           backgroundSize: "cover",
