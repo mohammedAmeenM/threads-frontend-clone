@@ -7,6 +7,13 @@ import Comment from './Comment';
 import Repost from './Repost';
 import Share from './Share';
 import axios from 'axios';
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 const ProfileReplyPosts = () => {
   const user = JSON.parse(window.localStorage.getItem('user'));
@@ -18,7 +25,7 @@ const ProfileReplyPosts = () => {
     const getReply= async ()=>{
       try {
         const response = await axios.get(`http://localhost:9000/api/users/post/user/reply/${userId}`)
-        console.log(response)
+        console.log(response.data.posts)
         if(response.status===200){
           setReply(response.data.posts)
         }
@@ -31,7 +38,9 @@ const ProfileReplyPosts = () => {
   return (
     
   <> 
-        
+        {reply.map((item)=>(
+
+       <>
           <div
             className=" w-full md:w-[580px] h-auto  md:p-2 p-3 flex flex-col relative top-[-27px]  justify-between items-center mb-10 "
            
@@ -42,7 +51,9 @@ const ProfileReplyPosts = () => {
                   <div
                     className="h-10 w-10 rounded-full bg-white box-border "
                     style={{
-                      backgroundImage: `url(${ "https://cdn-icons-png.flaticon.com/512/6596/6596121.png "})`,
+                      backgroundImage: `url(${ 
+                        item?.postById?.profilePic?item?.postById?.profilePic:"https://cdn-icons-png.flaticon.com/512/6596/6596121.png "
+                      })`,
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
@@ -58,24 +69,39 @@ const ProfileReplyPosts = () => {
               <div className=" w-full h-full bg-black flex flex-col">
                 <div className="w-full flex m-3 justify-between gap-3 items-center">
                   <span className="font-medium text-white hover:underline">
-                    ameen
+                    {item?.postById?.username}
                   </span>
                   <div className="flex justify-between gap-3 items-center ">
                     <span className="text-xs text-opacity-40 text-white">
                       14 h
                     </span>
 
-                    <button className=" w-7 h-7 rounded-full hover:bg-stone-900 active:scale-[90%] flex justify-center items-center">
-                      <IoIosMore className="text-white" />
-                    </button>
+                    <Dropdown className="bg-black">
+                    <DropdownTrigger>
+                      <Button
+                        variant="bordered"
+                        className=" w-7 h-7 rounded-full hover:bg-stone-900 active:scale-[90%] flex justify-center items-center"
+                      >
+                        <IoIosMore className="text-white" />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Static Actions"
+                      style={{ backgroundColor: "black" ,padding:'8px',tableLayout:"-moz-initial", borderRadius:'10px'}}
+                    >
+                      <DropdownItem key="follow" className="p-2">Unfollow</DropdownItem>
+                      <DropdownItem key="save" className="p-2" >Save</DropdownItem>
+                      
+                    </DropdownMenu>
+                  </Dropdown>
                   </div>
                 </div>
                 <div className="h-fit w-auto md:h-[400px] m-2">
-                  <p className="my-2 mx-2">hellooooooo........</p>
+                  <p className="my-2 mx-2">{item.text}</p>
                   <div className=" w-fit h-fit md:h-full md:w-full rounded-xl ">
                     <img
                       className="rounded-xl  w-full h-full "
-                      src=''
+                      src={item.image}
                       alt="Post images"
                     />
                   </div>
@@ -95,7 +121,8 @@ const ProfileReplyPosts = () => {
               </div>
             </div>
           </div>
-       
+          </>
+        ))}
       </>
    
 

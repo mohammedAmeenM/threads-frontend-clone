@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineSort } from "react-icons/md";
 import { IoCreateOutline } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi"; 
@@ -13,14 +13,26 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 const NavigationBar = () => {
   const router=useRouter()
 
+  const [user,setUser]=useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedUser = window.localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsLoggedIn(true); 
+    }
+  }, []);
+
   const { theme, setTheme } = useTheme(); 
   const handleToggleTheme = () => {
     console.log("Current theme:", theme);
     setTheme(theme === "dark" ? "light" : "dark");
   };
   const handleLogout=()=>{
-    localStorage.clear()
-    return router.push('/page/login')
+    localStorage.removeItem('user');
+    setUser(null);
+    setIsLoggedIn(false);
   }
   return (
     <div
@@ -49,12 +61,15 @@ const NavigationBar = () => {
           <DropdownItem className="py-1">
             <a>Switch Appearance</a>
           </DropdownItem>
-          <DropdownItem className="py-1"> 
-            <a >Log out</a>
-          </DropdownItem>
-          <DropdownItem className="py-1">
-            <a onClick={() => router.push("/page/login")}>Sign up</a>
-          </DropdownItem>
+          {isLoggedIn ? (
+                <DropdownItem className="py-1"> 
+                  <a onClick={handleLogout}>Log out</a>
+                </DropdownItem>
+              ) : (
+                <DropdownItem className="py-1">
+                  <a onClick={() => router.push("/page/login")}>Sign up</a>
+                </DropdownItem>
+              )}
         </DropdownMenu>
       </Dropdown>
     </div>
@@ -107,12 +122,15 @@ const NavigationBar = () => {
           <DropdownItem className="py-1">
             <a onClick={handleToggleTheme}>Switch Appearance</a>
           </DropdownItem>
-          <DropdownItem className="py-1"> 
-            <a  onClick={handleLogout}>Log out</a>
-          </DropdownItem>
-          <DropdownItem className="py-1">
-            <a onClick={() => router.push("/page/login")}>Sign up</a>
-          </DropdownItem>
+          {isLoggedIn ? (
+                <DropdownItem className="py-1"> 
+                  <a onClick={handleLogout}>Log out</a>
+                </DropdownItem>
+              ) : (
+                <DropdownItem className="py-1">
+                  <a onClick={() => router.push("/page/login")}>Sign up</a>
+                </DropdownItem>
+              )}
         </DropdownMenu>
       </Dropdown>
     </div>

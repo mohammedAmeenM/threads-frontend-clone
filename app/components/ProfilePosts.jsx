@@ -7,12 +7,16 @@ import Repost from "./Repost";
 import Share from "./Share";
 import Comment from "./Comment";
 import axios from "axios";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 
 const ProfilePosts = () => {
-
-  const userData = JSON.parse(window.localStorage.getItem('user'));
-  const userId = userData ? userData._id : null;
 
   const [post, setPost] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -22,21 +26,27 @@ const ProfilePosts = () => {
   };
 
   useEffect(() => {
-    const getUserPost = async () => {
+    const fetchUserPost = async () => {
       try {
+        const userData = JSON.parse(window.localStorage.getItem("user"));
+        const userId = userData ? userData._id : null;
         if (userId) {
-          const response = await axios.get(`http://localhost:9000/api/users/post/${userId}`);
-          console.log(response.data.post);
+          const response = await axios.get(
+            `http://localhost:9000/api/users/post/${userId}`
+          );
           setPost(response.data.post);
         } else {
-          console.log('User ID is null');
+          console.log("User ID is null");
         }
       } catch (error) {
-        console.log('Error fetching user post', error);
+        console.log("Error fetching user post", error);
       }
     };
-    getUserPost();
-  }, [userId]);
+
+    if (typeof window !== "undefined") {
+      fetchUserPost();
+    }
+  }, []);
   return (
     <>
     {post.length === 0 ? (
@@ -49,11 +59,11 @@ const ProfilePosts = () => {
       </>
     ) : (
       <>
-        {post.map((item)=>(
+        {post.map((item,index)=>(
             <>
           <div
             className=" w-full md:w-[580px] h-auto  md:p-2 p-3 flex flex-col relative top-[-27px]  justify-between items-center mb-10 "
-           
+           key={index}
           >
             <div className="h-auto w-full bg-black border-t-[1px] border-white flex border-opacity-30 p-2">
               <div className="h-ful w-fit">
@@ -109,27 +119,25 @@ const ProfilePosts = () => {
                       14 h
                     </span>
 
-                    <div className="dropdown dropdown-end">
-      <button className="w-7 h-7 rounded-full hover:bg-stone-900 active:scale-[90%] flex justify-center items-center" onClick={toggleDropdown}>
-        <IoIosMore className="text-white" />
-      </button>
-
-      {isOpen && (
-        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-stone-900 rounded-box w-52">
-          <li className="">
-            <a>Item 1</a>
-          </li>
-          <hr className="w-full bg-black bg-opacity-50" />
-          <li>
-            <a>Item 2</a>
-          </li>
-          <hr />
-          <li className="text-red-800">
-            <a>Delete</a>
-          </li>
-        </ul>
-      )}
-    </div>
+                    <Dropdown className="bg-black">
+                    <DropdownTrigger>
+                      <Button
+                        variant="bordered"
+                        className=" w-7 h-7 rounded-full hover:bg-stone-900 active:scale-[90%] flex justify-center items-center"
+                      >
+                        <IoIosMore className="text-white" />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Static Actions"
+                      style={{ backgroundColor: "black" ,padding:'8px',tableLayout:"-moz-initial", borderRadius:'10px'}}
+                    >
+                      <DropdownItem key="follow" className="p-2">Edit</DropdownItem>
+                      <DropdownItem key="save" className="p-2" >Save</DropdownItem>
+                      <DropdownItem key="block" className="p-2 text-danger" color="danger">Delete</DropdownItem>
+                      
+                    </DropdownMenu>
+                  </Dropdown>
                   </div>
                 </div>
 
