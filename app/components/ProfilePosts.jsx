@@ -134,7 +134,7 @@ const ProfilePosts = () => {
                     >
                       <DropdownItem key="follow" className="p-2">Edit</DropdownItem>
                       <DropdownItem key="save" className="p-2" >Save</DropdownItem>
-                      <DropdownItem key="block" className="p-2 text-danger" color="danger">Delete</DropdownItem>
+                      <DropdownItem key="block" style={{color:'red'}} className="p-2 text-danger" color="danger">Delete</DropdownItem>
                       
                     </DropdownMenu>
                   </Dropdown>

@@ -29,10 +29,14 @@ const Posts = () => {
     }
   }, []);
 
-  const userId = user ? user._id : null;
+
 
   const handleProfile = (userId) => {
+   if(user._id !==userId){
     router.push(`/page/user/${userId}`);
+   }else{
+    router.push('/page/profile')
+   }
   };
 
   useEffect(() => {
@@ -138,7 +142,7 @@ const Posts = () => {
                 </div>
               </div>
               <div className="flex gap-1 mx-2 mt-10 items-center">
-                <Like userId={userId} postId={item._id} />
+                <Like userId={user._id} postId={item._id} />
                 <Comment postId={item._id} />
                 <Repost />
                 <Share />

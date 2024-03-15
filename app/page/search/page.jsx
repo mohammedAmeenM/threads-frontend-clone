@@ -7,11 +7,24 @@ import BottomBar from "@/app/components/BottomBar";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const user = JSON.parse(window.localStorage.getItem("user"));
-  const logUserId = user ? user._id : null; // Handle potential undefined user
-
-
+  
   const router = useRouter();
+  
+  const [user, setUser] = useState(null);
+  const [logUserId, setLogUserId] = useState(null);
+
+  useEffect(() => {
+    const userData = window.localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      setLogUserId(user._id);
+    }
+  }, [user]);
 
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
