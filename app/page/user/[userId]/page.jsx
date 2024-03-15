@@ -18,44 +18,44 @@
   const Page = () => {
 
 
-    const router=useRouter()
-    const {userId}=useParams()
-    const {selected}=usePosts()
-    const [user,setUser]=useState([])
-    const [isFollowing, setIsFollowing] = useState(false); 
+    const router = useRouter();
+  const { userId } = useParams();
+  const { selected } = usePosts();
+  const [user, setUser] = useState([]);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [userData, setUserData] = useState(null);
 
+  useEffect(() => {
+    const userData = window.localStorage.getItem("user");
+    if (userData) {
+      setUserData(JSON.parse(userData));
+      
+    }
+  }, []);
 
-    const [userData, setUserData] = useState(null);
-
-
-    useEffect(() => {
-      const userData = window.localStorage.getItem("user");
-      if (userData) {
-        setUserData(JSON.parse(userData));
-      }
-    }, []);
-
+  useEffect(() => {
     const logUserId = userData ? userData._id : null;
-
-    useEffect(() => {
-    const getUserById = async () => {
-      try {
-        const response = await axios.get(`http://localhost:9000/api/users/profile/${userId}`);
-        if (response.status === 200) {
-          setUser(response.data.user);
-          setIsFollowing(response.data.user.followers.includes(logUserId));
+    if (logUserId) {
+      const getUserById = async () => {
+        try {
+          const response = await axios.get(`http://localhost:9000/api/users/profile/${userId}`);
+          if (response.status === 200) {
+            setUser(response.data.user);
+            setIsFollowing(response.data.user.followers.includes(logUserId));
+          }
+        } catch (error) {
+          console.error(error, "get user by id");
         }
-      } catch (error) {
-        console.error(error, "get user by id");
-      }
-    };
+      };
 
       getUserById();
-    }, []);
+    }
+  }, [userId, userData]);
 
-
-    const handleFollow = async () => {
-      try {
+  const handleFollow = async () => {
+    try {
+      const logUserId = userData ? userData._id : null;
+      if (logUserId) {
         if (isFollowing) {
           await axios.post(`http://localhost:9000/api/users/unfollow/${logUserId}`, {
             userUnfollowId: userId,
@@ -67,10 +67,12 @@
           });
           setIsFollowing(true);
         }
-      } catch (error) {
-        console.error(error, "follow");
       }
-    };
+    } catch (error) {
+      console.error(error, "follow");
+    }
+  };
+
     
     return (
       <>
@@ -149,6 +151,7 @@
       {selected === "profileRepliPost" && <UserProfileReply userId={userId} />}
       {selected === "repost" && <UserProfileReposts userId={userId}/>}
       {!selected && <UserProfilePost userId={userId}/>}
+      
       </div>
 
     </div>

@@ -22,6 +22,8 @@ const Posts = () => {
   const [post, setPost] = useState([]);
   const [user, setUser] = useState(null);
 
+  const [isFollowing,setIsFollowing]=useState({})
+
   useEffect(() => {
     const storedUser = window.localStorage.getItem("user");
     if (storedUser) {
@@ -29,14 +31,12 @@ const Posts = () => {
     }
   }, []);
 
-
-
   const handleProfile = (userId) => {
-   if(user._id !==userId){
-    router.push(`/page/user/${userId}`);
-   }else{
-    router.push('/page/profile')
-   }
+    if (user._id !== userId) {
+      router.push(`/page/user/${userId}`);
+    } else {
+      router.push("/page/profile");
+    }
   };
 
   useEffect(() => {
@@ -53,6 +53,26 @@ const Posts = () => {
     };
     getPosts();
   }, []);
+
+  const handleFollow = async (userId) => {
+    try {
+      await axios.post(`http://localhost:9000/api/users/follow/${user?._id}`, { userFollowId: userId });
+      setIsFollowing(prevState => ({ ...prevState, [userId]: true }));
+    } catch (error) {
+      console.error(error, "follow");
+    }
+  };
+
+  const handleUnfollow = async (userId) => {
+    try {
+      await axios.post(`http://localhost:9000/api/users/unfollow/${user?._id}`, { userUnfollowId: userId });
+      setIsFollowing(prevState => ({ ...prevState, [userId]: false }));
+    } catch (error) {
+      console.error(error, "unfollow");
+    }
+  };
+
+  
   return (
     <>
       <PostHeads />
@@ -121,12 +141,33 @@ const Posts = () => {
                     </DropdownTrigger>
                     <DropdownMenu
                       aria-label="Static Actions"
-                      style={{ backgroundColor: "black" ,padding:'8px',tableLayout:"-moz-initial", borderRadius:'10px'}}
+                      style={{
+                        backgroundColor: "black",
+                        padding: "8px",
+                        tableLayout: "-moz-initial",
+                        borderRadius: "10px",
+                      }}
                     >
-                      <DropdownItem key="follow" className="p-2">Unfollow</DropdownItem>
-                      <DropdownItem key="save" className="p-2" >Save</DropdownItem>
-                      <DropdownItem key="block" className="p-2">Block</DropdownItem>
-                      
+                     
+                        <DropdownItem
+                          key="unfollow"
+                          className="p-2"
+                          onClick={() => handleUnfollow(item?.postById?._id)}
+                        >
+                          Unfollow
+                        </DropdownItem>
+               
+                        <DropdownItem
+                          key="follow"
+                          className="p-2"
+                          onClick={() => handleFollow(item?.postById?._id)}
+                        >
+                          Follow
+                        </DropdownItem>
+                     
+                      <DropdownItem key="save" className="p-2">
+                        Save
+                      </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </div>
@@ -142,8 +183,8 @@ const Posts = () => {
                 </div>
               </div>
               <div className="flex gap-1 mx-2 mt-10 items-center">
-                <Like userId={user._id} postId={item._id} />
-                <Comment postId={item._id} />
+              <Like userId={user ? user._id : null} postId={item._id} />     
+               <Comment postId={item._id} />
                 <Repost />
                 <Share />
               </div>

@@ -47,6 +47,15 @@ const ProfilePosts = () => {
       fetchUserPost();
     }
   }, []);
+
+  const handleDelete=async (postId)=>{
+    try {
+      
+    } catch (error) {
+      console.log('error delete product',error)
+    }
+  }
+
   return (
     <>
     {post.length === 0 ? (
@@ -134,7 +143,7 @@ const ProfilePosts = () => {
                     >
                       <DropdownItem key="follow" className="p-2">Edit</DropdownItem>
                       <DropdownItem key="save" className="p-2" >Save</DropdownItem>
-                      <DropdownItem key="block" style={{color:'red'}} className="p-2 text-danger" color="danger">Delete</DropdownItem>
+                      <DropdownItem key="block" style={{color:'red'}} className="p-2 text-danger" onClick={()=>handleDelete(item._id)} color="danger">Delete</DropdownItem>
                       
                     </DropdownMenu>
                   </Dropdown>

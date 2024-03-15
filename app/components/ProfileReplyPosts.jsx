@@ -14,6 +14,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import ReplyList from './ReplyList';
 
 const ProfileReplyPosts = () => {
   const user = JSON.parse(window.localStorage.getItem('user'));
@@ -38,12 +39,12 @@ const ProfileReplyPosts = () => {
   return (
     
   <> 
-        {reply.map((item)=>(
+        {reply.map((item, index)=>(
 
        <>
           <div
             className=" w-full md:w-[580px] h-auto  md:p-2 p-3 flex flex-col relative top-[-27px]  justify-between items-center mb-10 "
-           
+           key={index}
           >
             <div className="h-auto w-full bg-black border-t-[1px] border-white flex border-opacity-30 p-2">
               <div className="h-ful w-fit">
@@ -109,15 +110,15 @@ const ProfileReplyPosts = () => {
                 <div className="flex gap-1 mx-2 mt-10 items-center">
                   <Like /> <Comment /> <Repost /> <Share />
                 </div>
-                {/* replys */}
-                {/* {item.replies.map((reply) => (
-                  <Replie
+
+                {item.replies.map((reply) => (
+                  <ReplyList
                     key={reply._id}
                     userProfilePic={reply.userProfilePic}
                     username={reply.username}
                     text={reply.text}
                   />
-                ))} */}
+                ))}
               </div>
             </div>
           </div>

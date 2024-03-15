@@ -7,11 +7,14 @@ import BottomBar from "@/app/components/BottomBar";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
-  
   const router = useRouter();
-  
   const [user, setUser] = useState(null);
-  const [logUserId, setLogUserId] = useState(null);
+  const [logUserId, setLogUserId] = useState(false);
+
+  const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [isFollowing, setIsFollowing] = useState({});
 
   useEffect(() => {
     const userData = window.localStorage.getItem("user");
@@ -26,41 +29,39 @@ const Page = () => {
     }
   }, [user]);
 
-  const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [isFollowing, setIsFollowing] = useState({}); // Use an object for user-specific following state
-
   useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:9000/api/users/all");
-        if (response.status === 200) {
-          const userMap = {}; // Create a map for efficient following check
-
-          // Pre-populate the userMap with following status (if available)
-          response.data.users.forEach((user) => {
-            userMap[user._id] =
-              user.followers && user.followers.includes(logUserId);
-          });
-
-          setUsers(response.data.users);
-          setFilteredUsers(response.data.users);
-          setIsFollowing(userMap); // Set the following state with userMap
+    if (logUserId) {
+      const getUsers = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:9000/api/users/all"
+          );
+          if (response.status === 200) {
+            const userMap = {};
+            response.data.users.forEach((user) => {
+              userMap[user._id] = user.followers.includes(logUserId);
+            });
+            setUsers(response.data.users);
+            setFilteredUsers(response.data.users);
+            setIsFollowing(userMap);
+          }
+        } catch (error) {
+          console.log("get users followers ", error);
         }
-      } catch (error) {
-        console.log("get users followers ", error);
-      }
-    };
-    getUsers();
-  }, []);
+      };
+      getUsers();
+    }
+  }, [logUserId]);
 
   useEffect(() => {
     const filtered = users.filter((user) =>
       user.username.toLowerCase().includes(search.toLowerCase())
-    );
+    ).filter((user) => user._id !== logUserId); 
     setFilteredUsers(filtered);
-  }, [search, users]);
+
+  }, [search, users, logUserId]);
+
+  
 
   const handleProfile = (userId) => {
     router.push(`/page/user/${userId}`);
@@ -68,27 +69,20 @@ const Page = () => {
 
   const handleFollow = async (userId) => {
     try {
-      const followingState = { ...isFollowing }; // Create a copy to avoid mutation
+      const followingState = { ...isFollowing };
 
       if (followingState[userId]) {
-        // Check following state for the specific user
-        // User is already following, so unfollow
         await axios.post(
           `http://localhost:9000/api/users/unfollow/${logUserId}`,
-          {
-            userUnfollowId: userId,
-          }
+          { userUnfollowId: userId }
         );
-        followingState[userId] = false; // Update following state for the user
+        followingState[userId] = false;
       } else {
-        // User is not following, so follow
         await axios.post(
           `http://localhost:9000/api/users/follow/${logUserId}`,
-          {
-            userFollowId: userId,
-          }
+          { userFollowId: userId }
         );
-        followingState[userId] = true; // Update following state for the user
+        followingState[userId] = true;
       }
 
       setIsFollowing(followingState);
@@ -101,8 +95,8 @@ const Page = () => {
     <>
       <NavigationBar />
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <div className="w-full md:w-[580px] h-screen overflow-hidden md:p-2 p-3 flex flex-col relative justify-between items-center">
-          <div className="h-auto w-full bg-black border-white flex flex-col justify-center items-center border-opacity-30 p-2">
+        <div className="w-full md:w-[580px] h-screen overflow-hidden md:p-2 p-3 flex flex-col relative justify-between items-center">
+          <div className="h-auto w-full bg-black border-white flex flex-col justify-center items-center border-opacity-30 p-2">
             <div className="h-full w-full flex justify-center items-center">
               <div className="relative w-full">
                 <input
@@ -149,7 +143,7 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div className=" active:scale-95 w-full md:w-28 h-9 border border-white border-opacity-20 rounded-lg flex justify-center items-center">
+                <div className="active:scale-95 w-full md:w-28 h-9 border border-white border-opacity-20 rounded-lg flex justify-center items-center">
                   <button onClick={() => handleFollow(item._id)}>
                     {isFollowing[item._id] ? "Following" : "Follow"}
                   </button>

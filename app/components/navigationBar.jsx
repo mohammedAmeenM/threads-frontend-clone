@@ -33,6 +33,7 @@ const NavigationBar = () => {
     localStorage.removeItem('user');
     setUser(null);
     setIsLoggedIn(false);
+    router.push('/page/login')
   }
   return (
     <div
