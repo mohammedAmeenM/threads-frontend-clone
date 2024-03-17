@@ -4,7 +4,6 @@ import { IoIosMore } from "react-icons/io";
 import { MdAddCircle } from "react-icons/md";
 import Like from "./Like";
 import Repost from "./Repost"; 
-import Share from "./Share";
 import Comment from "./Comment";
 import axios from "axios";
 import {
@@ -18,6 +17,67 @@ import {
 const UserProfilePost = ({ userId }) => {
     const [post,setPost]=useState([])
     const [isOpen, setIsOpen] = useState(false);
+    const [user, setUser] = useState(null);
+    const [logUserId, setLogUserId] = useState(false);
+    const [isFollowing, setIsFollowing] = useState({});
+  
+    useEffect(() => {
+      const userData = window.localStorage.getItem("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
+    }, []);
+  
+    useEffect(() => {
+      if (user) {
+        setLogUserId(user._id);
+      }
+    }, [user]);
+  
+    useEffect(() => {
+      if (logUserId) {
+        const getUsers = async () => {
+          try {
+            const response = await axios.get(
+              "http://localhost:9000/api/users/all"
+            );
+            if (response.status === 200) {
+              const userMap = {};
+              response.data.users.forEach((user) => {
+                userMap[user._id] = user.followers.includes(logUserId);
+              });
+              setIsFollowing(userMap);
+            }
+          } catch (error) {
+            console.log("get users followers ", error);
+          }
+        };
+        getUsers();
+      }
+    }, [logUserId]);
+  
+    const handleFollow = async (userId) => {
+      try {
+        const followingState = { ...isFollowing };
+  
+        if (followingState[userId]) {
+          await axios.post(
+            `http://localhost:9000/api/users/unfollow/${logUserId}`,
+            { userUnfollowId: userId }
+          );
+          followingState[userId] = false;
+        } else {
+          await axios.post(
+            `http://localhost:9000/api/users/follow/${logUserId}`,
+            { userFollowId: userId }
+          );
+          followingState[userId] = true;
+        }
+        setIsFollowing(followingState);
+      } catch (error) {
+        console.error(error, "follow");
+      }
+    };
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -119,9 +179,10 @@ const UserProfilePost = ({ userId }) => {
                       aria-label="Static Actions"
                       style={{ backgroundColor: "black" ,padding:'8px',tableLayout:"-moz-initial", borderRadius:'10px'}}
                     >
-                      <DropdownItem key="follow" className="p-2">Unfollow</DropdownItem>
-                      <DropdownItem key="save" className="p-2" >Save</DropdownItem>
-                      <DropdownItem key="block" className="p-2">Block</DropdownItem>
+                      <DropdownItem key="follow" className="p-2" onClick={() => handleFollow(item?.postById?._id)}>  
+                      {isFollowing[item?.postById?._id] ? "Following" : "Follow"}
+                    </DropdownItem>
+                      
                       
                     </DropdownMenu>
                   </Dropdown>
@@ -141,7 +202,7 @@ const UserProfilePost = ({ userId }) => {
 
                 <div className="flex gap-1 mx-2 mt-10 items-center">
                   <Like  /> <Comment />{" "}
-                  <Repost /> <Share />
+                  <Repost /> 
                 </div>
                 <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
                   <span>10 replies</span>

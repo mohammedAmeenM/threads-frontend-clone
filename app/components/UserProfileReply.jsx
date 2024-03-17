@@ -5,7 +5,6 @@ import { IoIosMore } from "react-icons/io";
 import Like from './Like';
 import Comment from './Comment';
 import Repost from './Repost';
-import Share from './Share';
 import axios from 'axios';
 import {
   Dropdown,
@@ -113,7 +112,7 @@ const UserProfileReply = ({ userId }) => {
                   </div>
                 </div>
                 <div className="flex gap-1 mx-2 mt-10 items-center">
-                  <Like /> <Comment /> <Repost /> <Share />
+                  <Like /> <Comment /> <Repost /> 
                 </div>
                 {/* replys */}
                 {/* {item.replies.map((reply) => (

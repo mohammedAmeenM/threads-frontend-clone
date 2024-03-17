@@ -5,7 +5,6 @@ import { IoIosMore } from "react-icons/io";
 import Like from './Like';
 import Comment from './Comment';
 import Repost from './Repost';
-import Share from './Share';
 import axios from 'axios';
 import {
   Dropdown,
@@ -91,7 +90,7 @@ const ProfileReplyPosts = () => {
                       style={{ backgroundColor: "black" ,padding:'8px',tableLayout:"-moz-initial", borderRadius:'10px'}}
                     >
                       <DropdownItem key="follow" className="p-2">Unfollow</DropdownItem>
-                      <DropdownItem key="save" className="p-2" >Save</DropdownItem>
+                      {/* <DropdownItem key="save" className="p-2" >Save</DropdownItem> */}
                       
                     </DropdownMenu>
                   </Dropdown>
@@ -108,7 +107,7 @@ const ProfileReplyPosts = () => {
                   </div>
                 </div>
                 <div className="flex gap-1 mx-2 mt-10 items-center">
-                  <Like /> <Comment /> <Repost /> <Share />
+                  <Like /> <Comment /> <Repost /> 
                 </div>
 
                 {item.replies.map((reply) => (

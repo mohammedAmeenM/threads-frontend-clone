@@ -7,7 +7,6 @@ import axios from "axios";
 import Like from "./Like";
 import Comment from "./Comment";
 import Repost from "./Repost";
-import Share from "./Share";
 import { useRouter } from "next/navigation";
 import {
   Dropdown,
@@ -21,15 +20,11 @@ const Posts = () => {
   const router = useRouter();
   const [post, setPost] = useState([]);
   const [user, setUser] = useState(null);
+  const [logUserId, setLogUserId] = useState(false);
+  const [isFollowing, setIsFollowing] = useState({});
 
-  const [isFollowing,setIsFollowing]=useState({})
 
-  useEffect(() => {
-    const storedUser = window.localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+
 
   const handleProfile = (userId) => {
     if (user._id !== userId) {
@@ -61,21 +56,62 @@ const Posts = () => {
     getPosts();
   }, []);
 
+
+  useEffect(() => {
+    const userData = window.localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      setLogUserId(user._id);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (logUserId) {
+      const getUsers = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:9000/api/users/all"
+          );
+          if (response.status === 200) {
+            const userMap = {};
+            response.data.users.forEach((user) => {
+              userMap[user._id] = user.followers.includes(logUserId);
+            });
+            setIsFollowing(userMap);
+          }
+        } catch (error) {
+          console.log("get users followers ", error);
+        }
+      };
+      getUsers();
+    }
+  }, [logUserId]);
+
   const handleFollow = async (userId) => {
     try {
-      await axios.post(`http://localhost:9000/api/users/follow/${user?._id}`, { userFollowId: userId });
-      setIsFollowing(prevState => ({ ...prevState, [userId]: true }));
+      const followingState = { ...isFollowing };
+
+      if (followingState[userId]) {
+        await axios.post(
+          `http://localhost:9000/api/users/unfollow/${logUserId}`,
+          { userUnfollowId: userId }
+        );
+        followingState[userId] = false;
+      } else {
+        await axios.post(
+          `http://localhost:9000/api/users/follow/${logUserId}`,
+          { userFollowId: userId }
+        );
+        followingState[userId] = true;
+      }
+      setIsFollowing(followingState);
     } catch (error) {
       console.error(error, "follow");
-    }
-  };
-
-  const handleUnfollow = async (userId) => {
-    try {
-      await axios.post(`http://localhost:9000/api/users/unfollow/${user?._id}`, { userUnfollowId: userId });
-      setIsFollowing(prevState => ({ ...prevState, [userId]: false }));
-    } catch (error) {
-      console.error(error, "unfollow");
     }
   };
 
@@ -159,22 +195,17 @@ const Posts = () => {
                         <DropdownItem
                           key="unfollow"
                           className="p-2"
-                          onClick={() => handleUnfollow(item?.postById?._id)}
-                        >
-                          Unfollow
-                        </DropdownItem>
-               
-                        <DropdownItem
-                          key="follow"
-                          className="p-2"
                           onClick={() => handleFollow(item?.postById?._id)}
                         >
-                          Follow
+                       
+                      {isFollowing[item?.postById?._id] ? "Following" : "Follow"}
+                  
                         </DropdownItem>
-                     
+               
+{/*                      
                       <DropdownItem key="save" className="p-2">
                         Save
-                      </DropdownItem>
+                      </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
                 </div>
@@ -192,8 +223,8 @@ const Posts = () => {
               <div className="flex gap-1 mx-2 mt-10 items-center">
               <Like userId={user ? user._id : null} postId={item._id} />     
                <Comment postId={item._id} />
-                <Repost />
-                <Share />
+                <Repost postId={item._id} />
+                
               </div>
 
               <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">

@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import Like from './Like'
 import Repost from './Repost'
-import Share from './Share' 
 import { IoIosMore } from 'react-icons/io' 
 import { MdAddCircle } from 'react-icons/md'
 import Comment from './Comment'
@@ -63,7 +62,7 @@ const UserProfileReposts = ({ userId }) => {
               </div>
             </div>
             <div className="flex gap-1 mx-2 mt-10 items-center">
-              <Like /> <Comment /> <Repost /> <Share />
+              <Like /> <Comment /> <Repost /> 
             </div>
           </div>
         </div>

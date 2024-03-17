@@ -4,7 +4,6 @@ import { IoIosMore } from "react-icons/io";
 import { MdAddCircle } from "react-icons/md";
 import Like from "./Like";
 import Repost from "./Repost";
-import Share from "./Share";
 import Comment from "./Comment";
 import axios from "axios";
 import {
@@ -15,6 +14,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import EditPost from "./Models/EditPost";
+import { toast } from "react-toastify";
 
 const ProfilePosts = () => {
   const [post, setPost] = useState([]);
@@ -79,6 +79,7 @@ const ProfilePosts = () => {
       );
       if (response.status === 200) {
         fetchUserPost();
+        toast.success('Delete Post')
       }
     } catch (error) {
       console.log("error delete product", error);
@@ -184,9 +185,9 @@ const ProfilePosts = () => {
                             >
                               Edit
                             </DropdownItem>
-                            <DropdownItem key="save" className="p-2">
+                            {/* <DropdownItem key="save" className="p-2">
                               Save
-                            </DropdownItem>
+                            </DropdownItem> */}
                             <DropdownItem
                               key="block"
                               style={{ color: "red" }}
@@ -219,7 +220,7 @@ const ProfilePosts = () => {
                     </div>
 
                     <div className="flex gap-1 mx-2 mt-10 items-center">
-                      <Like /> <Comment /> <Repost /> <Share />
+                      <Like /> <Comment /> <Repost />
                     </div>
                     <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
                       <span>{item.replies.length} reply</span>
