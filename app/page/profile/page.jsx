@@ -1,7 +1,6 @@
 "use client"
 import NavigationBar from '@/app/components/NavigationBar';
 import { usePosts } from '@/app/zustand/posts/posts';
-import axios from 'axios';
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { FaInstagram } from "react-icons/fa6";
@@ -12,6 +11,8 @@ import Threads from '@/app/components/Threads';
 import Replies from '@/app/components/Replies';
 import Reposts from '@/app/components/Reposts';
 import EditProfile from '@/app/components/Models/EditProfile';
+import Follower from '@/app/components/Models/Follower';
+import usersStore from '@/app/zustand/users/usersStore';
 
 
 
@@ -22,9 +23,8 @@ const Page = () => {
   const [user, setUser]= useState(null)
   const router=useRouter();
   const [profile,setProfile]=useState([])
-  const [followers,setFollowers]=useState([])
   const {selected}=usePosts()
-
+  const { setFollowerss} = usersStore()
   
   useEffect(() => {
     const storedUser = window.localStorage.getItem('user');
@@ -37,9 +37,18 @@ const Page = () => {
     if (user) {
       const getProfile = async () => {
         try {
-          const response = await axios.get(`http://localhost:9000/api/users/profile/${user._id}`);
-          console.log(response.data.user);
-          setProfile(response.data.user);
+          const response= await fetch(`http://localhost:9000/api/users/profile/${user._id}`,{
+            method:'get',
+            headers:{
+              'Content-Type':'application/json'
+            }
+          })
+          if(response.ok){
+            const data = await response.json();
+            setProfile(data.user);
+          }
+          
+          
         } catch (error) {
           console.log('error profile', error);
         }
@@ -47,6 +56,26 @@ const Page = () => {
       getProfile();
     }
   }, [user]);
+
+  const viewFollowers = async () => {
+    document.getElementById('my_modal_2').showModal()
+    try {
+      const response = await fetch(`http://localhost:9000/api/users/followers/${user._id}`,{
+        method:'get',
+        headers:{
+          'Content-Type':'application/json'
+        }
+      })
+      if(response.ok){
+        const data = await response.json();
+        setFollowerss(data.user.followers)
+        console.log(data.user.followers,'folloowwww')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
   <>
@@ -87,12 +116,14 @@ const Page = () => {
            
                 {" "}{" "}
              
-              <span className="mt-4 text-white text-opacity-40 mx-8 hover:underline" 
-              
-              >
-                
-               {profile?.followers?.length}  followers
-              </span>
+                <Follower />
+
+<span className="mt-4 text-white text-opacity-20 mx-8 hover:underline" 
+onClick={viewFollowers}
+>
+  {" "}
+  {profile?.followers?.length} followers
+</span>
             </div>
           </div>
           <div className="flex justify-end flex-col ">

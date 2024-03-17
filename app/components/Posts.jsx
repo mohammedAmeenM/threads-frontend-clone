@@ -42,11 +42,18 @@ const Posts = () => {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:9000/api/users/post"
-        );
-        // const listPostById=response.data.posts.map((item)=>item.postById)
-        setPost(response.data.posts);
+
+        fetch(`http://localhost:9000/api/users/post`,{
+          method:'get',
+          headers:{
+            'Content-Type':'application/json'
+          }
+        }).then((res)=>res.json())
+        .then((data)=>{
+          console.log(data,'post')
+          setPost(data.posts)
+        })
+       
       } catch (error) {
         console.log(error);
       }

@@ -222,8 +222,8 @@ const ProfilePosts = () => {
                       <Like /> <Comment /> <Repost /> <Share />
                     </div>
                     <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
-                      <span>10 replies</span>
-                      <span>14 likes</span>
+                      <span>{item.replies.length} reply</span>
+                      <span>{item.likes.length} like</span>
                     </div>
                   </div>
                 </div>

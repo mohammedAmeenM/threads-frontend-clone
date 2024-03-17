@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoImagesOutline } from 'react-icons/io5';
 import { CgMoreO } from 'react-icons/cg';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import BottomBar from '@/app/components/BottomBar';
 import NavigationBar from '@/app/components/NavigationBar';
 import { toast } from 'react-toastify';
@@ -42,17 +41,23 @@ const Page = () => {
     formData.append('userId', userId);
     formData.append('text', text);
     formData.append('image', image);
-
-    try {
-      const response = await axios.post('http://localhost:9000/api/users/post', formData);
-      console.log(response);
-      if(response.status===201){
-        toast.success('created')
-        return router.push('/')
-      }
-    } catch (error) {
-      console.log(error, 'add post');
+    try{
+    const response = await fetch('http://localhost:9000/api/users/post', {
+      method: 'POST',
+      body: formData,
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      toast.success('Post created successfully');
+      router.push('/');
+    } else {
+      console.log('error uploading')
     }
+  } catch (error) {
+    console.error('Error adding post:', error);
+    toast.error('Failed to create post');
+  }
   };
 
   const handleImageClick = (e) => {
