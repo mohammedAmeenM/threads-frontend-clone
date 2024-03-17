@@ -1,8 +1,77 @@
+'use client'
 import usersStore from '@/app/zustand/users/usersStore';
-import React from 'react'
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
 const Follower = () => {
+  const router = useRouter();
     const { followerss } = usersStore();
+    const [user, setUser] = useState(null);
+    const [logUserId, setLogUserId] = useState(false);
+    const [isFollowing, setIsFollowing] = useState({});
+  
+    useEffect(() => {
+      const userData = window.localStorage.getItem("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
+    }, []);
+  
+    useEffect(() => {
+      if (user) {
+        setLogUserId(user._id);
+      }
+    }, [user]);
+  
+    useEffect(() => {
+      if (logUserId) {
+        const getUsers = async () => {
+          try {
+            const response = await axios.get(
+              "http://localhost:9000/api/users/all"
+            );
+            if (response.status === 200) {
+              const userMap = {};
+              response.data.users.forEach((user) => {
+                userMap[user._id] = user.followers.includes(logUserId);
+              });
+              setIsFollowing(userMap);
+            }
+          } catch (error) {
+            console.log("get users followers ", error);
+          }
+        };
+        getUsers();
+      }
+    }, [logUserId]);
+  
+    const handleFollow = async (userId) => {
+      try {
+        const followingState = { ...isFollowing };
+  
+        if (followingState[userId]) {
+          await axios.post(
+            `http://localhost:9000/api/users/unfollow/${logUserId}`,
+            { userUnfollowId: userId }
+          );
+          followingState[userId] = false;
+        } else {
+          await axios.post(
+            `http://localhost:9000/api/users/follow/${logUserId}`,
+            { userFollowId: userId }
+          );
+          followingState[userId] = true;
+        }
+        setIsFollowing(followingState);
+      } catch (error) {
+        console.error(error, "follow");
+      }
+    };
+
+    const handleProfile = (userId) => {
+      router.push(`/page/user/${userId}`);
+    };
     return (
         <>
           <div >
@@ -27,12 +96,14 @@ const Follower = () => {
                         />
                       </div>
                       <div className="w-auto h-auto flex flex-col ms-2">
-                        <span className="hover:underline mb-3 md:mb-0">{user.username}</span>
+                        <span className="hover:underline mb-3 md:mb-0 cursor-pointer" onClick={()=>handleProfile(user._id)}>{user.username}</span>
                         <span>{user.followers.length} followers</span>
                       </div>
                     </div>
                     <div className="active:scale-95 w-full md:w-28 h-9 border border-white border-opacity-20 rounded-lg flex justify-center items-center">
-                      <button>Follow</button>
+                    <button onClick={() => handleFollow(user._id)}>
+                      {isFollowing[user._id] ? "Following" : "Follow back"}
+                    </button>
                     </div>
                   </div>
                 ))

@@ -13,6 +13,8 @@
   import UserProfileReply from "@/app/components/UserProfileReply";
   import UserProfileReposts from "@/app/components/UserProfileReposts";
   import UserProfilePost from "@/app/components/UserProfilePosts";
+import Following from "@/app/components/Models/Following";
+import usersStore from "@/app/zustand/users/usersStore";
 
 
   const Page = () => {
@@ -24,6 +26,8 @@
   const [user, setUser] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
   const [userData, setUserData] = useState(null);
+
+  const {setFollowings}= usersStore()
 
   useEffect(() => {
     const userData = window.localStorage.getItem("user");
@@ -73,6 +77,20 @@
     }
   };
 
+  const viewFollowings= async () => {
+    document.getElementById('my_modal_5').showModal()
+    try {
+      const response = await fetch(`http://localhost:9000/api/users/following/${userId}`)
+      if(response.ok){
+        const data = await response.json();
+        setFollowings(data.user.following)
+        console.log(data.user.following,'following')
+      }
+    } catch (error) {
+      console.log(error,'get user following')
+    }
+  }
+
     
     return (
       <>
@@ -109,7 +127,10 @@
                   backgroundSize: "contain",
                 }}
               ></div>
-              <span className="mt-4 text-white text-opacity-20 ms-5 hover:underline">
+              <Following />
+              <span className="mt-4 text-white text-opacity-20 ms-5 hover:underline cursor-pointer"
+              onClick={viewFollowings}
+              >
                 {" "}
               {user?.following?.length} following
               </span>

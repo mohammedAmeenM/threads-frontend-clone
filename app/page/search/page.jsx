@@ -8,14 +8,14 @@ import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [logUserId, setLogUserId] = useState(false);
-
+  
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [user, setUser] = useState(null);
+  const [logUserId, setLogUserId] = useState(false);
   const [isFollowing, setIsFollowing] = useState({});
-
+  
   useEffect(() => {
     const userData = window.localStorage.getItem("user");
     if (userData) {
@@ -53,43 +53,43 @@ const Page = () => {
     }
   }, [logUserId]);
 
-  useEffect(() => {
-    const filtered = users.filter((user) =>
-      user.username.toLowerCase().includes(search.toLowerCase())
-    ).filter((user) => user._id !== logUserId); 
-    setFilteredUsers(filtered);
-
-  }, [search, users, logUserId]);
-
   
-
-  const handleProfile = (userId) => {
-    router.push(`/page/user/${userId}`);
-  };
-
   const handleFollow = async (userId) => {
     try {
       const followingState = { ...isFollowing };
-
+      
       if (followingState[userId]) {
         await axios.post(
           `http://localhost:9000/api/users/unfollow/${logUserId}`,
           { userUnfollowId: userId }
-        );
-        followingState[userId] = false;
-      } else {
-        await axios.post(
-          `http://localhost:9000/api/users/follow/${logUserId}`,
-          { userFollowId: userId }
-        );
-        followingState[userId] = true;
-      }
+          );
+          followingState[userId] = false;
+        } else {
+          await axios.post(
+            `http://localhost:9000/api/users/follow/${logUserId}`,
+            { userFollowId: userId }
+            );
+            followingState[userId] = true;
+          }
+          setIsFollowing(followingState);
+        } catch (error) {
+          console.error(error, "follow");
+        }
+      };
 
-      setIsFollowing(followingState);
-    } catch (error) {
-      console.error(error, "follow");
-    }
-  };
+      useEffect(() => {
+        const filtered = users.filter((user) =>
+          user.username.toLowerCase().includes(search.toLowerCase())
+        ).filter((user) => user._id !== logUserId); 
+        setFilteredUsers(filtered);
+    
+      }, [search, users, logUserId]);
+    
+      
+    
+      const handleProfile = (userId) => {
+        router.push(`/page/user/${userId}`);
+      };
 
   return (
     <>
