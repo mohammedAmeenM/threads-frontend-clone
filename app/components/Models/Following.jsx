@@ -9,6 +9,7 @@ const Following = () => {
   const { followings } = usersStore();
   const [user, setUser] = useState(null);
   const [logUserId, setLogUserId] = useState(false);
+  const [username,setUsername] = useState(false)
   const [isFollowing, setIsFollowing] = useState({});
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const Following = () => {
   useEffect(() => {
     if (user) {
       setLogUserId(user._id);
+      setUsername(user.username)
     }
   }, [user]);
 
@@ -59,7 +61,7 @@ const Following = () => {
       } else {
         await axios.post(
           `http://localhost:9000/api/users/follow/${logUserId}`,
-          { userFollowId: userId }
+          { userFollowId: userId ,username:username}
         );
         followingState[userId] = true;
       }

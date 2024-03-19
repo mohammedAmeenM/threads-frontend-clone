@@ -18,17 +18,17 @@ const BottomBar = () => {
       <GrHomeRounded className="text-3xl text-white text-opacity-50 hover:text-opacity-90 " />
     </button>
     <button className="btn  px-5 py-4 bg-transparent hover:bg-stone-800 border-none rounded-lg  "
-    
+    onClick={()=>router.push('/page/search')}
     >
       <FiSearch className="text-3xl text-white text-opacity-50 hover:text-opacity-90" />
     </button>
     <button className="btn  px-5 py-4 bg-transparent hover:bg-stone-800 border-none rounded-lg  "
-    
+    onClick={()=>router.push('/page/create')}
     >
       <IoCreateOutline className="text-3xl text-white text-opacity-50 hover:text-opacity-90" />
     </button>
     <button className="btn  px-5 py-4 bg-transparent hover:bg-stone-800 border-none rounded-lg  "
-    
+    onClick={()=>router.push('/page/notification')}
     >
       <FaRegHeart className="text-3xl text-white text-opacity-50 hover:text-opacity-90" />
     </button>

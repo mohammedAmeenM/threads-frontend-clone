@@ -20,6 +20,8 @@ const UserProfilePost = ({ userId }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [logUserId, setLogUserId] = useState(false);
+    const [username,setUsername] = useState(false)
+
     const [isFollowing, setIsFollowing] = useState({});
   
     useEffect(() => {
@@ -32,6 +34,7 @@ const UserProfilePost = ({ userId }) => {
     useEffect(() => {
       if (user) {
         setLogUserId(user._id);
+        setUsername(user.username)
       }
     }, [user]);
   
@@ -70,7 +73,7 @@ const UserProfilePost = ({ userId }) => {
         } else {
           await axios.post(
             `http://localhost:9000/api/users/follow/${logUserId}`,
-            { userFollowId: userId }
+            { userFollowId: userId ,username:username}
           );
           followingState[userId] = true;
         }
@@ -132,28 +135,7 @@ const UserProfilePost = ({ userId }) => {
                   <div className="  h-fit md:h-[450px] w-[1px] bg-white bg-opacity-30 rounded-lg"></div>
 
                   <div className="w-10 h-10 relative flex justify-center">
-                    {/* {item.replies.slice(0, 3).map((reply, index) => (
-                      <div
-                        key={index}
-                        className={`w-${5 - index} h-${
-                          5 - index
-                        } bg-black absolute ${
-                          index === 0
-                            ? "top-0 right-0"
-                            : index === 1
-                            ? "top-2 left-1"
-                            : "bottom-1 left-4"
-                        } rounded-full`}
-                        style={{
-                          backgroundImage: `url(${
-                            reply.userProfilePic
-                              ? reply.userProfilePic
-                              : "https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
-                          })`,
-                          backgroundSize: "cover",
-                        }}
-                      ></div>
-                    ))} */}
+                    
                   </div> 
                 </div>
               </div>
