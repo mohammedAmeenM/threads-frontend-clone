@@ -169,8 +169,8 @@ import usersStore from "@/app/zustand/users/usersStore";
           <Replies />
           <Reposts />
         </div>
-      {selected === "profileRepliPost" && <UserProfileReply userId={userId} />}
-      {selected === "repost" && <UserProfileReposts userId={userId}/>}
+      {selected === "profileRepliPost" && <UserProfileReply userId={userId} logUserId={userData ? userData._id : null} />}
+      {selected === "repost" && <UserProfileReposts userId={userId} logUserId={userData ? userData._id : null}/>}
       {!selected && <UserProfilePost userId={userId}/>}
       
       </div>

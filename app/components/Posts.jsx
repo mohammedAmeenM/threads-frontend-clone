@@ -15,6 +15,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import getElapsedTime from "./Timeset/time";
 
 const Posts = () => {
   const router = useRouter();
@@ -170,7 +171,7 @@ const Posts = () => {
 
                 <div className="flex justify-between gap-3 items-center ">
                   <span className="text-xs text-opacity-40 text-white">
-                    14 h
+                    {getElapsedTime(item.createdOn)}
                   </span>
 
                   <Dropdown className="bg-black">

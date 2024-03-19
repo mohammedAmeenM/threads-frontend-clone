@@ -15,20 +15,20 @@ import {
 } from "@nextui-org/react";
 import EditPost from "./Models/EditPost";
 import { toast } from "react-toastify";
+import getElapsedTime from "./Timeset/time";
 
 const ProfilePosts = () => {
   const [post, setPost] = useState([]);
   const [isOpenn, setIsOpenn] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const userData = JSON.parse(window.localStorage.getItem("user"));
   const toggleDropdown = () => {
     setIsOpenn(!isOpenn);
   };
 
   const fetchUserPost = async () => {
     try {
-      const userData = JSON.parse(window.localStorage.getItem("user"));
       const userId = userData ? userData._id : null;
       if (userId) {
         const response = await axios.get(
@@ -157,7 +157,7 @@ const ProfilePosts = () => {
                       </span>
                       <div className="flex justify-between gap-3 items-center ">
                         <span className="text-xs text-opacity-40 text-white">
-                          14 h
+                        {getElapsedTime(item.createdOn)}
                         </span>
 
                         <Dropdown className="bg-black">
@@ -220,7 +220,7 @@ const ProfilePosts = () => {
                     </div>
 
                     <div className="flex gap-1 mx-2 mt-10 items-center">
-                      <Like /> <Comment /> <Repost />
+                      <Like userId={userData ? userData._id : null} postId={item._id} /> <Comment postId={item._id}/> <Repost postId={item._id} />
                     </div>
                     <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
                       <span>{item.replies.length} reply</span>

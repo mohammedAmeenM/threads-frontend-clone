@@ -13,6 +13,7 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import getElapsedTime from "./Timeset/time";
 
 const UserProfilePost = ({ userId }) => {
     const [post,setPost]=useState([])
@@ -97,22 +98,22 @@ const UserProfilePost = ({ userId }) => {
   return (
     <>
     {post.length === 0 ? (
-      <>
-      <div className="flex w-full justify-center items-center  text-white text-opacity-30 h-screen ">
-        <h1 className="flex justify-center items-center ">
-          No Posts yet
-        </h1>
-      </div>
-      </>
+     <>
+     <div className="flex w-full justify-center items-center  text-white text-opacity-30 h-screen ">
+       <h1 className="flex justify-center items-center ">
+         No Posts yet
+       </h1>
+     </div>
+     </>
     ) : (
       <>
         {post.map((item,index)=>(
             <>
           <div
-         
+          key={index}
             className=" w-full md:w-[580px] h-auto  md:p-2 p-3 flex flex-col relative top-[-27px]  justify-between items-center mb-10 "
           >
-            <div key={index} className="h-auto w-full bg-black border-t-[1px] border-white flex border-opacity-30 p-2">
+            <div  className="h-auto w-full bg-black border-t-[1px] border-white flex border-opacity-30 p-2">
               <div className="h-ful w-fit">
                 <div className="w-fit h-full  flex flex-col items-center gap-3">
                   <div
@@ -163,7 +164,7 @@ const UserProfilePost = ({ userId }) => {
                   </span>
                   <div className="flex justify-between gap-3 items-center ">
                     <span className="text-xs text-opacity-40 text-white">
-                      14 h
+                    {getElapsedTime(item.createdOn)}
                     </span>
 
                     <Dropdown className="bg-black">
@@ -201,12 +202,12 @@ const UserProfilePost = ({ userId }) => {
                 </div>
 
                 <div className="flex gap-1 mx-2 mt-10 items-center">
-                  <Like  /> <Comment />{" "}
-                  <Repost /> 
+                  <Like userId={logUserId} postId={item._id} /> <Comment postId={item._id} />{" "}
+                  <Repost postId={item._id}/> 
                 </div>
                 <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
-                  <span>10 replies</span>
-                  <span>14 likes</span>
+                  <span>{item?.replies?.length} replies</span>
+                  <span>{item?.likes?.length} likes</span>
                 </div>
               </div>
             </div>

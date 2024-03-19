@@ -13,8 +13,10 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import ReplyList from './ReplyList';
+import getElapsedTime from './Timeset/time';
 
-const UserProfileReply = ({ userId }) => {
+const UserProfileReply = ({ userId ,logUserId }) => {
   const [reply,setReply]=useState([])
 
   useEffect(()=>{
@@ -77,7 +79,7 @@ const UserProfileReply = ({ userId }) => {
                   </span>
                   <div className="flex justify-between gap-3 items-center ">
                     <span className="text-xs text-opacity-40 text-white">
-                      14 h
+                    {getElapsedTime(item.createdOn)}
                     </span>
 
                     <Dropdown className="bg-black">
@@ -94,8 +96,7 @@ const UserProfileReply = ({ userId }) => {
                       style={{ backgroundColor: "black" ,padding:'8px',tableLayout:"-moz-initial", borderRadius:'10px'}}
                     >
                       <DropdownItem key="follow" className="p-2">Unfollow</DropdownItem>
-                      <DropdownItem key="save" className="p-2" >Save</DropdownItem>
-                      <DropdownItem key="block" className="p-2">Block</DropdownItem>
+                     
                       
                     </DropdownMenu>
                   </Dropdown>
@@ -112,17 +113,16 @@ const UserProfileReply = ({ userId }) => {
                   </div>
                 </div>
                 <div className="flex gap-1 mx-2 mt-10 items-center">
-                  <Like /> <Comment /> <Repost /> 
+                  <Like userId={logUserId} postId={item._id} /> <Comment postId={item._id}/> <Repost postId={item._id}/> 
                 </div>
-                {/* replys */}
-                {/* {item.replies.map((reply) => (
-                  <Replie
+                {item.replies.map((reply) => (
+                  <ReplyList
                     key={reply._id}
                     userProfilePic={reply.userProfilePic}
                     username={reply.username}
                     text={reply.text}
                   />
-                ))} */}
+                ))}
               </div>
             </div>
           </div>
