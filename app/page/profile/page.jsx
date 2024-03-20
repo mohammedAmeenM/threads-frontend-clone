@@ -13,6 +13,7 @@ import Reposts from '@/app/components/Reposts';
 import EditProfile from '@/app/components/Models/EditProfile';
 import Follower from '@/app/components/Models/Follower';
 import usersStore from '@/app/zustand/users/usersStore';
+import BottomBar from '@/app/components/BottomBar';
 
 
 
@@ -160,6 +161,7 @@ onClick={viewFollowers}
       {!selected && <ProfilePosts />}
       </div>
     </div>
+    <BottomBar />
     </>
   )
 }

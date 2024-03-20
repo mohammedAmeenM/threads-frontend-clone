@@ -8,10 +8,24 @@ import Allusers from '@/app/components/Notifications/Allusers'
 import Followers from '@/app/components/Notifications/Followers'
 import LikesUsers from '@/app/components/Notifications/LikesUsers'
 import usersStore from '@/app/zustand/users/usersStore'
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 const Page = () => {
-    const { selected } = usersStore();
+    const { selected ,setUser} = usersStore();
+    const [userId, setUserId] = useState(null);
+    const [notificaton , setNotification] = useState([]);
+
+
+    useEffect(() => {
+      const userData = window.localStorage.getItem("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
+    }, []);
+
+
+
   return (
     <>
     <NavigationBar />

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { GoHeart } from "react-icons/go";
 import { IoHeart } from "react-icons/io5";
 
-const Like = ({ userId, postId }) => {
+const Like = ({ userId, postId  }) => {
   const [liked, setLiked] = useState(false);
   const [loading, setLoading] = useState(true); 
 
@@ -31,14 +31,14 @@ const Like = ({ userId, postId }) => {
     try {
       if (!loading) {
         if (liked) {
-          const response = await axios.post(`http://localhost:9000/api/users/post/unlike/${postId}`, { userId });
+          const response = await axios.post(`http://localhost:9000/api/users/post/unlike/${postId}`, { userId  });
           if (response.status === 200) {
             setLiked(false);
           } else {
             console.log('error unliking');
           }
         } else {
-          await axios.post(`http://localhost:9000/api/users/post/like/${postId}`, { userId });
+          await axios.post(`http://localhost:9000/api/users/post/like/${postId}`, { userId  });
           setLiked(true);
         }
       }

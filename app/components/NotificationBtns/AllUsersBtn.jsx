@@ -1,7 +1,7 @@
 import usersStore from '@/app/zustand/users/usersStore'
 import React from 'react'
 
-const AllUsersBtn = () => {
+const AllUsersBtn = ({userId}) => {
     const {setOutFollowers }  = usersStore()
     const handleClick =  () => {
       setOutFollowers()

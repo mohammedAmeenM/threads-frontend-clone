@@ -1,6 +1,9 @@
 import {create} from 'zustand';
 
 const usersStore = create ((set) => ({
+
+    user:[], 
+    setUser: (userData) => set({user: userData}), 
     
     followerss:[],
     setFollowerss: (userData) => set({followerss: userData}),

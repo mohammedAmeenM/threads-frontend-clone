@@ -22,7 +22,6 @@ const Posts = () => {
   const [post, setPost] = useState([]);
   const [user, setUser] = useState(null);
   const [logUserId, setLogUserId] = useState(false);
-  const [username,setUsername] = useState(false)
   const [isFollowing, setIsFollowing] = useState({});
 
 
@@ -69,7 +68,7 @@ const Posts = () => {
   useEffect(() => {
     if (user) {
       setLogUserId(user._id);
-      setUsername(user.username)
+      
     }
   }, [user]);
 
@@ -108,7 +107,7 @@ const Posts = () => {
       } else {
         await axios.post(
           `http://localhost:9000/api/users/follow/${logUserId}`,
-          { userFollowId: userId ,username:username}
+          { userFollowId: userId }
         );
         followingState[userId] = true;
       }
@@ -224,7 +223,7 @@ const Posts = () => {
                 </div>
               </div>
               <div className="flex gap-1 mx-2 mt-10 items-center">
-              <Like userId={user ? user._id : null} postId={item._id} />     
+              <Like userId={user ? user._id : null}  postId={item._id} />     
                <Comment postId={item._id} />
                 <Repost postId={item._id} />
                 
