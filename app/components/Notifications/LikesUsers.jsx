@@ -1,9 +1,11 @@
 "use client";
 import usersStore from '@/app/zustand/users/usersStore';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const LikesUsers = () => {
+  const router = useRouter()
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = usersStore();
@@ -29,6 +31,14 @@ const LikesUsers = () => {
     fetchLikeNotifications();
   }, [user]);
 
+  const handleProfile = (userId) => {
+    if (user._id !== userId) {
+      router.push(`/page/user/${userId}`);
+    } else {
+      router.push("/page/profile");
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -47,7 +57,7 @@ const LikesUsers = () => {
                     <img src={notification.senderUserId?.profilePic || 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'} alt="" className='h-full w-full' />
                   </div>
                   <div className="w-full md:w-auto h-auto flex flex-col ms-2">
-                    <span className="hover:underline mb-3 md:mb-0">{notification.senderUserId?.username}</span>
+                    <span className="hover:underline mb-3 md:mb-0" onClick={()=>handleProfile(notification.senderUserId?._id)}>{notification.senderUserId?.username}</span>
                     <span>{notification.description}</span>
                   </div>
                 </div>

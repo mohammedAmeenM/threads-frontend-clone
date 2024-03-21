@@ -1,9 +1,11 @@
 "use client";
 import usersStore from '@/app/zustand/users/usersStore';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const Allusers = () => {
+  const router = useRouter();
   const [notification, setNotification] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = usersStore();
@@ -28,6 +30,66 @@ const Allusers = () => {
     fetchAllNotification();
   }, [user]);
 
+  const handleProfile = (userId) => {
+  console.log('hiiiii')
+    if (user._id !== userId) {
+      router.push(`/page/user/${userId}`);
+    } else {
+      router.push("/page/profile");
+    }
+  };
+
+
+  const [isFollowing, setIsFollowing] = useState({});
+
+  const logUserId= user._id;
+
+  useEffect(() => {
+    if (logUserId) {
+      const getUsers = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:9000/api/users/all"
+          );
+          if (response.status === 200) {
+            const userMap = {};
+            response.data.users.forEach((user) => {
+              userMap[user._id] = user.followers.includes(logUserId);
+            });
+            setIsFollowing(userMap);
+          }
+        } catch (error) {
+          console.log("get users followers ", error);
+        }
+      };
+      getUsers();
+    }
+  }, [logUserId]);
+
+  const handleFollow = async (userId) => {
+    try {
+      const followingState = { ...isFollowing };
+
+      if (followingState[userId]) {
+        await axios.post(
+          `http://localhost:9000/api/users/unfollow/${logUserId}`,
+          { userUnfollowId: userId }
+        );
+        followingState[userId] = false;
+      } else {
+        await axios.post(
+          `http://localhost:9000/api/users/follow/${logUserId}`,
+          { userFollowId: userId }
+        );
+        followingState[userId] = true;
+      }
+      setIsFollowing(followingState);
+    } catch (error) {
+      console.error(error, "follow");
+    }
+  };
+
+
   const renderNotificationType = () => {
     if (loading) {
       return <p>Loading...</p>;
@@ -47,7 +109,7 @@ const Allusers = () => {
                   <img src={notif.senderUserId?.profilePic || 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'} alt="" className='h-full w-full' />
                 </div>
                 <div className="w-full md:w-auto h-auto flex flex-col ms-2">
-                  <span className="hover:underline mb-3 md:mb-0">{notif.senderUserId?.username}</span>
+                  <span className="hover:underline mb-3 md:mb-0" onClick={()=>handleProfile(notif?.senderUserId?._id)}>{notif.senderUserId?.username}</span>
                   <span>{notif.description}</span>
                 </div>
               </div>
@@ -61,12 +123,12 @@ const Allusers = () => {
                   <img src={notif?.senderUserId?.profilePic || 'default-profile-image.jpg'} alt="" className='h-full w-full' />
                 </div>
                 <div className="w-full md:w-auto h-auto flex flex-col ms-2">
-                  <span className="hover:underline mb-3 md:mb-0">{notif?.senderUserId?.username}</span>
+                  <span className="hover:underline mb-3 md:mb-0"  onClick={() => handleProfile(notif?.senderUserId?._id)}>{notif?.senderUserId?.username}</span>
                   <span>{notif.description}</span>
                 </div>
               </div>
               <div className="w-full md:w-28 h-9 border border-white border-opacity-20 rounded-lg flex justify-center items-center">
-                <button>Follow Back</button>
+                <button onClick={() => handleFollow(notif?.senderUserId?._id)}> {isFollowing[notif?.senderUserId?._id] ? "Following" : "Follow"}</button>
               </div>
             </div>
           );
