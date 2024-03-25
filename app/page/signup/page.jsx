@@ -3,7 +3,7 @@ import useAuthStore from "@/app/zustand/users/authStore";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
@@ -14,6 +14,15 @@ let userData
 const Signup = () => {
   
   const router = useRouter();
+
+  // ERROR 
+
+  const [nameError, setNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneNoError, setPhoneNoError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
   //input reff
 
   const nameRef=useRef(null);
@@ -32,6 +41,39 @@ const Signup = () => {
     const inputPhoneNo=phoneNORef.current.value;
     const inputPassword=passwordRef.current.value;
 
+
+
+    if (!inputName) {
+      setNameError('Name is required');
+      return;
+    } else {
+      setNameError('');
+    }
+    if (!inputUsername) {
+      setUsernameError('Username is required');
+      return;
+    } else {
+      setUsernameError('');
+    }
+    if (!inputEmail) {
+      setEmailError('Email is required');
+      return;
+    } else {
+      setEmailError('');
+    }
+    if (!inputPhoneNo) {
+      setPhoneNoError('Phone Number is required');
+      return;
+    } else {
+      setPhoneNoError('');
+    }
+    if (!inputPassword) {
+      setPasswordError('Password is required');
+      return;
+    } else {
+      setPasswordError('');
+    }
+
     try {
       const data={
         name:inputName,
@@ -45,7 +87,7 @@ const Signup = () => {
       if(response.status===201){
         localStorage.setItem("user",JSON.stringify(response.data))
         toast.success('created')
-        return  router.push('/page/verify')
+        return  router.push('/')
       }
     } catch (error) {
       console.log(error,'signupppp')
@@ -111,6 +153,7 @@ const Signup = () => {
               required
               className="w-1/2 placeholder:ps-2 h-12 rounded-lg p-3 bg-stone-700"
             />
+             {nameError && <span className="text-red-500">{nameError}</span>}
             <input
               type="text"
               placeholder="Username"
@@ -119,6 +162,7 @@ const Signup = () => {
               required
               className="w-1/2 placeholder:ps-2 h-12 p-3 rounded-lg bg-stone-700"
             />
+            {usernameError && <span className="text-red-500">{usernameError}</span>}
           </div>
           <input
             type="email"
@@ -128,6 +172,7 @@ const Signup = () => {
             required
             className="w-full placeholder:ps-2 h-12 rounded-lg bg-stone-700 p-3"
           />
+          {emailError && <span className="text-red-500">{emailError}</span>}
           <input
             type="phonenumber"
             placeholder="Phone Number"
@@ -136,6 +181,7 @@ const Signup = () => {
             required
             className="w-full placeholder:ps-2 h-12 rounded-lg bg-stone-700 p-3"
           />
+          {phoneNoError && <span className="text-red-500">{phoneNoError}</span>}
           <input
             type="password"
             placeholder="Password"
@@ -144,6 +190,7 @@ const Signup = () => {
             required
             className="w-full placeholder:ps-2 h-12 rounded-lg bg-stone-700 p-3"
           />
+           {passwordError && <span className="text-red-500">{passwordError}</span>}
           <button
             className="bg-white text-black w-80 h-12 rounded-lg"
             onClick={handleSignUp}

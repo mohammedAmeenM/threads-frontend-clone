@@ -3,13 +3,16 @@ import useAuthStore from "@/app/zustand/users/authStore";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
 
 const Login = () => {
   const route=useRouter()
+
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const {data:session,mutate}=useSession();
   const {googleEmail,setGoogleEmail,isUser}=useAuthStore();
@@ -59,6 +62,18 @@ const Login = () => {
     const inputUsername=usernameRef.current.value;
     const inputPassword=passwordRef.current.value;
 
+    setUsernameError('');
+    setPasswordError('');
+
+    if (!inputUsername) {
+      setUsernameError('Username is required');
+      return;
+    }
+    if (!inputPassword) {
+      setPasswordError('Password is required');
+      return;
+    }
+
     
     try {
       const data={
@@ -95,6 +110,7 @@ const Login = () => {
             required
             className="w-80 placeholder:ps-3 h-12 rounded-lg bg-stone-700 p-3"
           />
+            {usernameError && <span className="text-red-500">{usernameError}</span>}
           <input
             type="password"
             placeholder="Password"
@@ -103,6 +119,7 @@ const Login = () => {
             required
             className="w-80 placeholder:ps-3 h-12 rounded-lg bg-stone-700 p-3"
           />
+          {passwordError && <span className="text-red-500">{passwordError}</span>}
 
           <button
             className="bg-white text-black w-80 h-12 rounded-lg"
