@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import useAuthStore from "@/app/zustand/users/authStore";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
@@ -7,100 +7,98 @@ import { useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
-
 const Login = () => {
-  const route=useRouter()
+  const route = useRouter();
 
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-  const {data:session,mutate}=useSession();
-  const {googleEmail,setGoogleEmail,isUser}=useAuthStore();
+  const { data: session, mutate } = useSession();
+  const { googleEmail, setGoogleEmail, isUser } = useAuthStore();
 
-  useEffect(()=>{
-    if(session && session.user){
-      setGoogleEmail(session.user.email)
+  useEffect(() => {
+    if (session && session.user) {
+      setGoogleEmail(session.user.email);
     }
-  },[session])
+  }, [session]);
 
   const handleGoogleLogin = async () => {
     try {
-      await signIn('google',{
-        callbackUrl:'/',
-        onSuccess:async (session)=>{
+      await signIn("google", {
+        callbackUrl: "/",
+        onSuccess: async (session) => {
           await mutate(null);
-          await GoogleLogin()
-        }
-      })
+          await GoogleLogin();
+        },
+      });
     } catch (error) {
       console.error("Error in handleGoogleLogin", error);
     }
   };
 
-  async function GoogleLogin(){
+  async function GoogleLogin() {
     try {
-      const userData={
-        email:googleEmail
-      }
-      const response= await axios.post('http://localhost:9000/api/users/google-login',userData);
+      const userData = {
+        email: googleEmail,
+      };
+      const response = await axios.post(
+        "http://localhost:9000/api/users/google-login",
+        userData
+      );
       console.log(response);
-      if(response){
-        toast.success('login success')
-        route.push('/')
+      if (response) {
+        toast.success("login success");
+        route.push("/");
       }
     } catch (error) {
       console.log(error);
-      toast.error('error login')
+      toast.error("error login");
     }
   }
 
-  const usernameRef=useRef(null);
-  const passwordRef=useRef(null)
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
 
-  const handleLogin=async(e)=>{
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const inputUsername=usernameRef.current.value;
-    const inputPassword=passwordRef.current.value;
+    const inputUsername = usernameRef.current.value;
+    const inputPassword = passwordRef.current.value;
 
-    setUsernameError('');
-    setPasswordError('');
+    setUsernameError("");
+    setPasswordError("");
 
     if (!inputUsername) {
-      setUsernameError('Username is required');
+      setUsernameError("Username is required");
       return;
     }
     if (!inputPassword) {
-      setPasswordError('Password is required');
+      setPasswordError("Password is required");
       return;
     }
 
-    
     try {
-      const data={
-        username:inputUsername,
-        password:inputPassword
-      }
-       
-      const response=await axios.post('http://localhost:9000/api/users/login',data)
-      if(response.status===200){
-        toast.success('login success')
-        localStorage.setItem('user',JSON.stringify(response.data))
-        return route.push('/')
-      }
+      const data = {
+        username: inputUsername,
+        password: inputPassword,
+      };
 
+      const response = await axios.post(
+        "http://localhost:9000/api/users/login",
+        data
+      );
+      if (response.status === 200) {
+        toast.success("login success");
+        localStorage.setItem("user", JSON.stringify(response.data));
+        return route.push("/");
+      }
     } catch (error) {
-      console.log(error,'login');
-      toast.error('error login')
+      console.log(error, "login");
+      toast.error("error login");
     }
-  }
+  };
   return (
- 
     <div>
-     
-    
       <div className="w-full h-screen flex justify-center items-center ">
-      
-          
         <div className="flex flex-col justify-between gap-3 ">
           <input
             type="text"
@@ -110,7 +108,9 @@ const Login = () => {
             required
             className="w-80 placeholder:ps-3 h-12 rounded-lg bg-stone-700 p-3"
           />
-            {usernameError && <span className="text-red-500">{usernameError}</span>}
+          {usernameError && (
+            <span className="text-red-500">{usernameError}</span>
+          )}
           <input
             type="password"
             placeholder="Password"
@@ -119,7 +119,9 @@ const Login = () => {
             required
             className="w-80 placeholder:ps-3 h-12 rounded-lg bg-stone-700 p-3"
           />
-          {passwordError && <span className="text-red-500">{passwordError}</span>}
+          {passwordError && (
+            <span className="text-red-500">{passwordError}</span>
+          )}
 
           <button
             className="bg-white text-black w-80 h-12 rounded-lg"
@@ -128,16 +130,16 @@ const Login = () => {
             Log in
           </button>
           <span className="text-center text-stone-400 text-sm hover:text-white">
-            <a href="#"  className="">
+            <a href="#" className="">
               Forgot Password?
             </a>
           </span>
           <span className="text-center text-stone-400 text-sm hover:text-white">
-            <a   className="" onClick={()=>route.push('/page/signup')}>
-              Create Account 
+            <a className="" onClick={() => route.push("/page/signup")}>
+              Create Account
             </a>
           </span>
-          
+
           <div className="flex items-center gap-3">
             <hr className="w-full border-t-2 border-gray-500" />
             <span className="text-gray-500">or</span>
@@ -156,19 +158,24 @@ const Login = () => {
       </div>
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box bg-stone-900 flex justify-center items-center gap-x-7 ">
-          
-         <input type="text"placeholder="Enter you Email hete " name="email" id=""   className="w-[200px] h-[40px] rounded-md bg-transparent p-3  " 
-         
-         />
+          <input
+            type="text"
+            placeholder="Enter you Email hete "
+            name="email"
+            id=""
+            className="w-[200px] h-[40px] rounded-md bg-transparent p-3  "
+          />
           <div className="modal-action">
-            <form method="dialog" >
-              <button type="submit" className="btn mb-4">Submit</button>
+            <form method="dialog">
+              <button type="submit" className="btn mb-4">
+                Submit
+              </button>
             </form>
           </div>
         </div>
       </dialog>
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Login
+export default Login;

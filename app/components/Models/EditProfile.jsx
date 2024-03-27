@@ -103,7 +103,7 @@ const EditProfile = () => {
                 >
                   {previewImage ? (
                       <img
-                        src={previewImage} // Display preview URL if available
+                        src={previewImage} 
                         alt=""
                         className="h-full w-full rounded-full"
                         style={{
