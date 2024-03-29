@@ -4,8 +4,8 @@ import { IoImagesOutline } from 'react-icons/io5';
 import { CgMoreO } from 'react-icons/cg';
 import { useRouter } from 'next/navigation';
 import BottomBar from '@/app/components/BottomBar';
-import NavigationBar from '@/app/components/NavigationBar';
 import { toast } from 'react-toastify';
+import NavigationBar from '@/app/components/NavigationBar';
 
 
 

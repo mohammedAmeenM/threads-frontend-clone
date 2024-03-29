@@ -1,10 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import BottomBar from "./components/BottomBar";
 import { useEffect, useState } from "react";
 import NavigationBar from "./components/NavigationBar";
+import BottomBar from "./components/BottomBar";
 import Home from "./page/home/page";
+import { useRouter } from "next/navigation";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
