@@ -1,4 +1,4 @@
-import Posts from "@/app/components/posts";
+import Posts from "@/app/components/Posts";
 import React from "react";
 
 const Home = () => {
