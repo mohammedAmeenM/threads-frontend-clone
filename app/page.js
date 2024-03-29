@@ -16,13 +16,13 @@ function MyApp({ Component, pageProps }) {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-
+  
     if (storedUser) {
       router.push("/");
     } else {
       router.push("/page/login");
     }
-  }, []);
+  }, [router]);
 
   return (
     <div className="bg-black w-full h-auto flex flex-col ">

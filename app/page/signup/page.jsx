@@ -112,7 +112,7 @@ const Signup = () => {
       setGoogleEmail(session.user.email);
       setGoogleProfile(session.user.image);
     }
-  }, [session]);
+  }, [session, setGoogleEmail, setGoogleProfile, setGoogleUserName]);
      
   const handleGoogleSign = async () => {
   

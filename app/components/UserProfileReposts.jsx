@@ -14,8 +14,9 @@ import {
   Button,
 } from "@nextui-org/react";
 import getElapsedTime from "./Timeset/time";
+import Image from "next/image";
 
-const UserProfileReposts = ({ userId,logUserId }) => {
+const UserProfileReposts = ({ userId, logUserId }) => {
   const [repost, setRepost] = useState([]);
 
   useEffect(() => {
@@ -33,17 +34,15 @@ const UserProfileReposts = ({ userId,logUserId }) => {
       }
     };
     getReposts();
-  }, []);
+  }, [userId]);
 
   return (
     <>
       {repost.length === 0 ? (
         <>
-        <div className="flex w-full justify-center items-center  text-white text-opacity-30 h-screen ">
-          <h1 className="flex justify-center items-center ">
-            No Posts yet
-          </h1>
-        </div>
+          <div className="flex w-full justify-center items-center  text-white text-opacity-30 h-screen ">
+            <h1 className="flex justify-center items-center ">No Posts yet</h1>
+          </div>
         </>
       ) : (
         repost.map((item, index) => (
@@ -81,7 +80,7 @@ const UserProfileReposts = ({ userId,logUserId }) => {
                   </span>
                   <div className="flex justify-between gap-3 items-center ">
                     <span className="text-xs text-opacity-40 text-white">
-                    {getElapsedTime(item.createdOn)}
+                      {getElapsedTime(item.createdOn)}
                     </span>
 
                     <Dropdown className="bg-black">
@@ -113,15 +112,18 @@ const UserProfileReposts = ({ userId,logUserId }) => {
                 <div className="h-fit w-auto md:h-[400px] m-2">
                   <p className="my-2 mx-2">{item.text}</p>
                   <div className="w-fit h-fit md:h-full md:w-full rounded-xl ">
-                    <img
-                      className="rounded-xl  w-full h-full "
+                    <Image
+                      className="rounded-xl w-full h-full"
                       src={item.image}
                       alt="Post images"
+                      width={200}
+                      height={200}
                     />
                   </div>
                 </div>
                 <div className="flex gap-1 mx-2 mt-10 items-center">
-                  <Like userId={logUserId} postId={item._id}/> <Comment postId={item._id}/> <Repost postId={item._id}/>
+                  <Like userId={logUserId} postId={item._id} />{" "}
+                  <Comment postId={item._id} /> <Repost postId={item._id} />
                 </div>
               </div>
             </div>

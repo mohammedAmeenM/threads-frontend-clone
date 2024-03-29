@@ -31,7 +31,9 @@ const ProfilePosts = () => {
   useEffect(() => {
     const fetchUserPost = async () => {
       try {
-        const userId = userData ? userData._id : null;
+        const user = JSON.parse(window.localStorage.getItem("user"));
+        setUserData(user);
+        const userId = user ? user._id : null;
         if (userId) {
           const response = await axios.get(
             `http://localhost:9000/api/users/post/${userId}`
@@ -47,7 +49,7 @@ const ProfilePosts = () => {
     if (typeof window !== "undefined") {
       fetchUserPost();
     }
-  }, []);
+  }, [userData]);
 
   const handleEdit = (post) => {
     setSelectedPost(post);

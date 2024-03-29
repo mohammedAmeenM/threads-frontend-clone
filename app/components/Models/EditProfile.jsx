@@ -53,7 +53,7 @@ const EditProfile = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [userId]);
 
   const handleSubmit = async () => {
     try {

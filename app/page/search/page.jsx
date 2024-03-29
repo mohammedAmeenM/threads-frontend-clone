@@ -5,6 +5,7 @@ import { RiSearchLine } from "react-icons/ri";
 import BottomBar from "@/app/components/BottomBar";
 import { useRouter } from "next/navigation";
 import NavBarr from "@/app/components/NavBarr";
+import Image from 'next/image';
 
 const Page = () => {
   const router = useRouter();
@@ -119,14 +120,12 @@ const Page = () => {
               >
                 <div className="w-full md:w-1/2 h-auto flex justify-start gap-2 items-center mb-3 md:mb-0">
                   <div className="w-12 h-12 bg-black rounded-full overflow-hidden">
-                    <img
-                      src={
-                        item.profilePic
-                          ? item.profilePic
-                          : "https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small_2x/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg"
-                      }
+                    <Image
+                      src={item.profilePic ? item.profilePic : "https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small_2x/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg"}
                       alt=""
-                      className="w-full h-full object-cover"
+                      width={48}
+                      height={48}
+                      objectFit="cover"
                     />
                   </div>
                   <div className="w-auto h-auto flex flex-col ms-2">

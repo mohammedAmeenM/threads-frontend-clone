@@ -12,8 +12,7 @@ import React, { useEffect, useState } from 'react'
 
 const Page = () => {
     const { selected ,setUser} = usersStore();
-    const [userId, setUserId] = useState(null);
-    const [notificaton , setNotification] = useState([]);
+
 
 
     useEffect(() => {
@@ -21,7 +20,7 @@ const Page = () => {
       if (userData) {
         setUser(JSON.parse(userData));
       }
-    }, []);
+    }, [setUser]);
 
 
 

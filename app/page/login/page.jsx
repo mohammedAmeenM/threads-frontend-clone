@@ -20,7 +20,7 @@ const Login = () => {
     if (session && session.user) {
       setGoogleEmail(session.user.email);
     }
-  }, [session]);
+  }, [session, setGoogleEmail]);
 
   const handleGoogleLogin = async () => {
     try {
