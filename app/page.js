@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import BottomBar from "@/app/components/BottomBar";
 import Home from "@/app/page/home/page";
 import { useEffect, useState } from "react";
-import NavigationBar from "@/app/components/NavigationBar";
+import NavigationBar from "@/app/components/NavigationBar"; 
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
