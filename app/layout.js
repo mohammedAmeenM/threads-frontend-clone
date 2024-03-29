@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
         <SessionProvid>
           <ThemeProvid>
             <ToastContainer position="bottom-center" />
+            
              {children}
           </ThemeProvid>
         </SessionProvid>
