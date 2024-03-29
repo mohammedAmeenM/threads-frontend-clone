@@ -16,6 +16,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import getElapsedTime from "./Timeset/time";
+import Image from "next/image";
 
 const Posts = () => {
   const router = useRouter();
@@ -23,9 +24,6 @@ const Posts = () => {
   const [user, setUser] = useState(null);
   const [logUserId, setLogUserId] = useState(false);
   const [isFollowing, setIsFollowing] = useState({});
-
-
-
 
   const handleProfile = (userId) => {
     if (user._id !== userId) {
@@ -38,25 +36,23 @@ const Posts = () => {
   useEffect(() => {
     const getPosts = async () => {
       try {
-
-        fetch(`http://localhost:9000/api/users/post`,{
-          method:'get',
-          headers:{
-            'Content-Type':'application/json'
-          }
-        }).then((res)=>res.json())
-        .then((data)=>{
-          console.log(data,'post')
-          setPost(data.posts)
+        fetch(`http://localhost:9000/api/users/post`, {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-       
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data, "post");
+            setPost(data.posts);
+          });
       } catch (error) {
         console.log(error);
       }
     };
     getPosts();
   }, []);
-
 
   useEffect(() => {
     const userData = window.localStorage.getItem("user");
@@ -68,7 +64,6 @@ const Posts = () => {
   useEffect(() => {
     if (user) {
       setLogUserId(user._id);
-      
     }
   }, [user]);
 
@@ -117,7 +112,6 @@ const Posts = () => {
     }
   };
 
-  
   return (
     <>
       <PostHeads />
@@ -193,18 +187,17 @@ const Posts = () => {
                         borderRadius: "10px",
                       }}
                     >
-                     
-                        <DropdownItem
-                          key="unfollow"
-                          className="p-2"
-                          onClick={() => handleFollow(item?.postById?._id)}
-                        >
-                       
-                      {isFollowing[item?.postById?._id] ? "Following" : "Follow"}
-                  
-                        </DropdownItem>
-               
-{/*                      
+                      <DropdownItem
+                        key="unfollow"
+                        className="p-2"
+                        onClick={() => handleFollow(item?.postById?._id)}
+                      >
+                        {isFollowing[item?.postById?._id]
+                          ? "Following"
+                          : "Follow"}
+                      </DropdownItem>
+
+                      {/*                      
                       <DropdownItem key="save" className="p-2">
                         Save
                       </DropdownItem> */}
@@ -215,18 +208,19 @@ const Posts = () => {
               <div className="h-fit w-auto md:h-[400px] m-2">
                 <p className="my-2 mx-2">{item.text}</p>
                 <div className=" w-auto h-auto md:h-full md:w-full rounded-xl ">
-                  <img
-                    className="rounded-xl w-auto h-full"
+                  <Image
                     src={item.image}
                     alt="...."
+                    width={200} 
+                    height={200} 
+                    className="rounded-xl w-auto h-full"
                   />
                 </div>
               </div>
               <div className="flex gap-1 mx-2 mt-10 items-center">
-              <Like userId={user ? user._id : null}  postId={item._id} />     
-               <Comment postId={item._id} />
+                <Like userId={user ? user._id : null} postId={item._id} />
+                <Comment postId={item._id} />
                 <Repost postId={item._id} />
-                
               </div>
 
               <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">

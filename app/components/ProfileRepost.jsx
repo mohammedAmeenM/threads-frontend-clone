@@ -1,10 +1,10 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import Like from './Like'
-import Repost from './Repost'
-import { IoIosMore } from 'react-icons/io' 
-import { MdAddCircle } from 'react-icons/md'
-import Comment from './Comment'
+"use client";
+import React, { useEffect, useState } from "react";
+import Like from "./Like";
+import Repost from "./Repost";
+import { IoIosMore } from "react-icons/io";
+import { MdAddCircle } from "react-icons/md";
+import Comment from "./Comment";
 import {
   Dropdown,
   DropdownTrigger,
@@ -12,40 +12,39 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
-import axios from 'axios'
-import getElapsedTime from './Timeset/time'
+import axios from "axios";
+import getElapsedTime from "./Timeset/time";
+import Image from "next/image";
 
 const ProfileRepost = () => {
- 
- 
-    const user = JSON.parse(window.localStorage.getItem('user'));
-    const userId=user._id
-  
-    const [repost,setRepost]=useState([])
-  
-    useEffect(()=>{
-      const getReposts= async ()=>{
-        try {
-          const response = await axios.get(`http://localhost:9000/api/users/post/repost/${userId}`)
-          console.log(response.data.posts)
-          if(response.status===200){
-            setRepost(response.data.posts)
-          }
-        } catch (error) {
-          console.log('error get replay ',error)
+  const user = JSON.parse(window.localStorage.getItem("user"));
+  const userId = user._id;
+
+  const [repost, setRepost] = useState([]);
+
+  useEffect(() => {
+    const getReposts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:9000/api/users/post/repost/${userId}`
+        );
+        console.log(response.data.posts);
+        if (response.status === 200) {
+          setRepost(response.data.posts);
         }
+      } catch (error) {
+        console.log("error get replay ", error);
       }
-      getReposts()
-    },[])
+    };
+    getReposts();
+  }, [userId]);
   return (
     <>
       {repost.length === 0 ? (
         <>
-        <div className="flex w-full justify-center items-center  text-white text-opacity-30 h-screen ">
-          <h1 className="flex justify-center items-center ">
-            No Posts yet
-          </h1>
-        </div>
+          <div className="flex w-full justify-center items-center  text-white text-opacity-30 h-screen ">
+            <h1 className="flex justify-center items-center ">No Posts yet</h1>
+          </div>
         </>
       ) : (
         repost.map((item, index) => (
@@ -83,7 +82,7 @@ const ProfileRepost = () => {
                   </span>
                   <div className="flex justify-between gap-3 items-center ">
                     <span className="text-xs text-opacity-40 text-white">
-                    {getElapsedTime(item.createdOn)}
+                      {getElapsedTime(item.createdOn)}
                     </span>
 
                     <Dropdown className="bg-black">
@@ -115,15 +114,18 @@ const ProfileRepost = () => {
                 <div className="h-fit w-auto md:h-[400px] m-2">
                   <p className="my-2 mx-2">{item.text}</p>
                   <div className="w-fit h-fit md:h-full md:w-full rounded-xl ">
-                    <img
-                      className="rounded-xl  w-full h-full "
+                    <Image
                       src={item.image}
                       alt="Post images"
+                      width={200} 
+                      height={200} 
+                      className="rounded-xl w-full h-full"
                     />
                   </div>
                 </div>
                 <div className="flex gap-1 mx-2 mt-10 items-center">
-                  <Like  userId={userId} postId={item._id}/> <Comment postId={item._id}/> <Repost postId={item._id} />
+                  <Like userId={userId} postId={item._id} />{" "}
+                  <Comment postId={item._id} /> <Repost postId={item._id} />
                 </div>
               </div>
             </div>
@@ -131,7 +133,7 @@ const ProfileRepost = () => {
         ))
       )}
     </>
-  )
-}
+  );
+};
 
-export default ProfileRepost
+export default ProfileRepost;

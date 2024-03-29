@@ -13,8 +13,7 @@ const BackgroundPic = () => (
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           }}>
-          {/* You can also use the Next.js Image component for better image optimization */}
-          <Image src="https://static.cdninstagram.com/rsrc.php/v3/ye/r/YVr3E4VYzmE.png" layout="fill" objectFit="contain" />
+          <Image src="https://static.cdninstagram.com/rsrc.php/v3/ye/r/YVr3E4VYzmE.png" layout="fill" alt='threads' objectFit="contain" />
         </div>
       </div>
     </div>

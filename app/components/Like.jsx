@@ -1,3 +1,4 @@
+import { user } from '@nextui-org/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { GoHeart } from "react-icons/go";
@@ -25,7 +26,7 @@ const Like = ({ userId, postId  }) => {
     };
   
     checkLikedStatus();
-  }, []);
+  }, [postId,userId]);
   
   const handleLikeClick = async () => {
     try {

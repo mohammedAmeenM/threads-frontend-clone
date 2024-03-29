@@ -3,6 +3,7 @@ import usersStore from "@/app/zustand/users/usersStore";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Followers = () => {
   const router = useRouter();
@@ -111,12 +112,15 @@ const Followers = () => {
               >
                 <div className="w-full md:w-1/2 h-auto flex justify-start gap-2 items-center mb-3 md:mb-0">
                   <div className="w-12 h-12 bg-white rounded-full overflow-hidden flex-shrink-0">
-                    <img
+                    <Image
                       src={
                         notification.senderUserId?.profilePic ||
                         "https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
                       }
                       alt=""
+                      width={48} 
+                      height={48} 
+                      className="rounded-full"
                     />
                   </div>
                   <div className="w-full md:w-auto h-auto flex flex-col ms-2">

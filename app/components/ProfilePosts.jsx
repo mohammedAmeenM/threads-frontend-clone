@@ -16,6 +16,7 @@ import {
 import EditPost from "./Models/EditPost";
 import { toast } from "react-toastify";
 import getElapsedTime from "./Timeset/time";
+import Image from "next/image";
 
 const ProfilePosts = () => {
   const [post, setPost] = useState([]);
@@ -27,22 +28,22 @@ const ProfilePosts = () => {
     setIsOpenn(!isOpenn);
   };
 
-  const fetchUserPost = async () => {
-    try {
-      const userId = userData ? userData._id : null;
-      if (userId) {
-        const response = await axios.get(
-          `http://localhost:9000/api/users/post/${userId}`
-        );
-        setPost(response.data.post);
-      } else {
-        console.log("User ID is null");
-      }
-    } catch (error) {
-      console.log("Error fetching user post", error);
-    }
-  };
   useEffect(() => {
+    const fetchUserPost = async () => {
+      try {
+        const userId = userData ? userData._id : null;
+        if (userId) {
+          const response = await axios.get(
+            `http://localhost:9000/api/users/post/${userId}`
+          );
+          setPost(response.data.post);
+        } else {
+          console.log("User ID is null");
+        }
+      } catch (error) {
+        console.log("Error fetching user post", error);
+      }
+    };
     if (typeof window !== "undefined") {
       fetchUserPost();
     }
@@ -79,7 +80,7 @@ const ProfilePosts = () => {
       );
       if (response.status === 200) {
         fetchUserPost();
-        toast.success('Delete Post')
+        toast.success("Delete Post");
       }
     } catch (error) {
       console.log("error delete product", error);
@@ -157,7 +158,7 @@ const ProfilePosts = () => {
                       </span>
                       <div className="flex justify-between gap-3 items-center ">
                         <span className="text-xs text-opacity-40 text-white">
-                        {getElapsedTime(item.createdOn)}
+                          {getElapsedTime(item.createdOn)}
                         </span>
 
                         <Dropdown className="bg-black">
@@ -211,16 +212,22 @@ const ProfilePosts = () => {
                     <div className="h-fit w-auto  md:h-[400px] m-2">
                       <p className="my-2 mx-2">{item.text}</p>
                       <div className=" w-fit h-fit md:h-full md:w-full rounded-xl ">
-                        <img
-                          className="rounded-xl  w-fit h-full "
+                        <Image
                           src={item.image}
                           alt="Post images"
+                          width={200}
+                          height={200} 
+                          className="rounded-xl w-fit h-full"
                         />
                       </div>
                     </div>
 
                     <div className="flex gap-1 mx-2 mt-10 items-center">
-                      <Like userId={userData ? userData._id : null} postId={item._id} /> <Comment postId={item._id}/> <Repost postId={item._id} />
+                      <Like
+                        userId={userData ? userData._id : null}
+                        postId={item._id}
+                      />{" "}
+                      <Comment postId={item._id} /> <Repost postId={item._id} />
                     </div>
                     <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
                       <span>{item.replies.length} reply</span>

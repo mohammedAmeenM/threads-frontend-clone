@@ -1,5 +1,6 @@
 // ReplyPost.js
 import axios from "axios";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -112,11 +113,13 @@ const ReplyPost = ({ postId }) => {
               <div className="h-fit w-auto m-2">
                 <p className="my-2 mx-2">{post.text} </p>
                 <div className="w-fit h-fit rounded-xl ">
-                  <img
-                    className="rounded-xl w-full h-full"
-                    src={post.image}
-                    alt="...."
-                  />
+                <Image
+  src={post.image}
+  alt="...."
+  width={400} 
+  height={300} 
+  className="rounded-xl w-full h-full"
+/>
                 </div>
               </div>
               <div className="flex gap-1 mx-2 mt-10 items-center">
