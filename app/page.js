@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import NavigationBar from "./components/NavigationBar";
 import BottomBar from "./components/BottomBar";
 import Home from "./page/home/page";
 import { useRouter } from "next/navigation";
+import NavigationBarr from "./components/NavigationBar";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <div className="bg-black w-full h-auto flex flex-col ">
-      <NavigationBar />
+      <NavigationBarr />
       <Home />
       <BottomBar />
     </div>

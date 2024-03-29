@@ -1,5 +1,4 @@
 "use client"
-import NavigationBar from '@/app/components/NavigationBar';
 import { usePosts } from '@/app/zustand/posts/posts';
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react';
@@ -14,6 +13,7 @@ import EditProfile from '@/app/components/Models/EditProfile';
 import Follower from '@/app/components/Models/Follower';
 import usersStore from '@/app/zustand/users/usersStore';
 import BottomBar from '@/app/components/BottomBar';
+import NavigationBarr from '@/app/components/NavigationBar';
 
 
 
@@ -80,7 +80,7 @@ const Page = () => {
 
   return (
   <>
-  <NavigationBar />
+  <NavigationBarr />
     <div  style={{display:'flex',justifyContent:'center'}} >
        <div className="w-full md:w-[580px] md:p-2 p-3 items-center  flex flex-col   mb-10">
         <div className="h-auto w-full flex justify-between   p-2">

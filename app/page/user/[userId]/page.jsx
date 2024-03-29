@@ -1,7 +1,6 @@
 
   "use client"
   import BottomBar from "@/app/components/BottomBar";
-  import NavigationBar from "@/app/components/NavigationBar";
   import Replies from "@/app/components/Replies";
   import Reposts from "@/app/components/Reposts";
   import Threads from "@/app/components/Threads";
@@ -15,6 +14,7 @@
   import UserProfilePost from "@/app/components/UserProfilePosts";
 import Following from "@/app/components/Models/Following";
 import usersStore from "@/app/zustand/users/usersStore";
+import NavigationBarr from "@/app/components/NavigationBar";
 
 
   const Page = () => {
@@ -94,7 +94,7 @@ import usersStore from "@/app/zustand/users/usersStore";
     
     return (
       <>
-      <NavigationBar />
+      <NavigationBarr />
       <div style={{display:"flex",justifyContent:'center'}}>
       <div className="w-full md:w-[580px] h-full  md:p-2 p-3 flex flex-col  justify-between items-center   ">
         <div className="h-auto w-full flex justify-between   p-2">

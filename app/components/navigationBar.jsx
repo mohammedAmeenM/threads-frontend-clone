@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 
-const NavigationBar = () => {
+const NavigationBarr = () => {
   const router=useRouter()
 
   const [user,setUser]=useState(null)
@@ -139,4 +139,4 @@ const NavigationBar = () => {
      );
 };
 
-export default NavigationBar;
+export default NavigationBarr;
