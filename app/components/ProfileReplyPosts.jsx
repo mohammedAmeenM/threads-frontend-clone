@@ -18,27 +18,34 @@ import getElapsedTime from "./Timeset/time";
 import Image from "next/image";
 
 const ProfileReplyPosts = () => {
-  const user = JSON.parse(window.localStorage.getItem("user"));
-  const userId = user ? user._id : null;
-
+  const [user, setUser] = useState(null);
   const [reply, setReply] = useState([]);
 
   useEffect(() => {
-    const getReply = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:9000/api/users/post/user/reply/${userId}`
-        );
-        console.log(response.data.posts);
-        if (response.status === 200) {
-          setReply(response.data.posts);
+    const userData = window.localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      const getReply = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:9000/api/users/post/user/reply/${user._id}`
+          );
+          console.log(response.data.posts);
+          if (response.status === 200) {
+            setReply(response.data.posts);
+          }
+        } catch (error) {
+          console.log("error get replay ", error);
         }
-      } catch (error) {
-        console.log("error get replay ", error);
-      }
-    };
-    getReply();
-  }, [userId]);
+      };
+      getReply();
+    }
+  }, [user]);
   return (
     <>
       {reply.length === 0 ? (
@@ -126,7 +133,7 @@ const ProfileReplyPosts = () => {
                       </div>
                     </div>
                     <div className="flex gap-1 mx-2 mt-10 items-center">
-                      <Like userId={userId} postId={item._id} />{" "}
+                      <Like userId={user._id} postId={item._id} />{" "}
                       <Comment postId={item._id} /> <Repost postId={item._id} />
                     </div>
                     {item.replies.map((reply) => (

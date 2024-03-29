@@ -23,33 +23,32 @@ const ProfilePosts = () => {
   const [isOpenn, setIsOpenn] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userData = JSON.parse(window.localStorage.getItem("user"));
+ const [userData,setUserData] = useState(null)
   const toggleDropdown = () => {
     setIsOpenn(!isOpenn);
   };
 
-  useEffect(() => {
-    const fetchUserPost = async () => {
-      try {
-        const user = JSON.parse(window.localStorage.getItem("user"));
-        setUserData(user);
-        const userId = user ? user._id : null;
-        if (userId) {
-          const response = await axios.get(
-            `http://localhost:9000/api/users/post/${userId}`
-          );
-          setPost(response.data.post);
-        } else {
-          console.log("User ID is null");
-        }
-      } catch (error) {
-        console.log("Error fetching user post", error);
+  const fetchUserPost = async () => {
+    try {
+      const user = JSON.parse(window.localStorage.getItem("user"));
+      setUserData(user);
+      const userId = user ? user._id : null;
+      if (userId) {
+        const response = await axios.get(
+          `http://localhost:9000/api/users/post/${userId}`
+        );
+        setPost(response.data.post);
+      } else {
+        console.log("User ID is null");
       }
-    };
-    if (typeof window !== "undefined") {
-      fetchUserPost();
+    } catch (error) {
+      console.log("Error fetching user post", error);
     }
-  }, [userData]);
+  };
+
+  useEffect(() => {
+    fetchUserPost();
+  }, []);
 
   const handleEdit = (post) => {
     setSelectedPost(post);
@@ -88,7 +87,6 @@ const ProfilePosts = () => {
       console.log("error delete product", error);
     }
   };
-
   return (
     <>
       {post.length === 0 ? (
