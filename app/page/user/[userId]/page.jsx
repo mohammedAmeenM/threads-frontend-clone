@@ -14,7 +14,7 @@
   import UserProfilePost from "@/app/components/UserProfilePosts";
 import Following from "@/app/components/Models/Following";
 import usersStore from "@/app/zustand/users/usersStore";
-import NavigationBarr from "@/app/components/NavigationBar";
+import NavBarr from "@/app/components/NavBarr";
 
 
   const Page = () => {
@@ -94,7 +94,7 @@ import NavigationBarr from "@/app/components/NavigationBar";
     
     return (
       <>
-      <NavigationBarr />
+      <NavBarr />
       <div style={{display:"flex",justifyContent:'center'}}>
       <div className="w-full md:w-[580px] h-full  md:p-2 p-3 flex flex-col  justify-between items-center   ">
         <div className="h-auto w-full flex justify-between   p-2">

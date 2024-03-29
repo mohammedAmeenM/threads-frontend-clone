@@ -5,7 +5,7 @@ import { CgMoreO } from 'react-icons/cg';
 import { useRouter } from 'next/navigation';
 import BottomBar from '@/app/components/BottomBar';
 import { toast } from 'react-toastify';
-import NavigationBar from '@/app/components/NavigationBar';
+import NavBarr from '@/app/components/NavBarr';
 
 
 
@@ -77,7 +77,7 @@ const Page = () => {
 
   return (
     <>
-   <NavigationBar />
+   <NavBarr />
     <div className="fixed top-0 pt-16 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
       <form encType="multipart/form-data">
         <div className="w-full h-[400px] max-w-lg mx-auto p-8 bg-stone-900 rounded-3xl">

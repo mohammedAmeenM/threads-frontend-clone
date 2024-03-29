@@ -4,7 +4,7 @@ import axios from "axios";
 import { RiSearchLine } from "react-icons/ri";
 import BottomBar from "@/app/components/BottomBar";
 import { useRouter } from "next/navigation";
-import NavigationBarr from "@/app/components/NavigationBar";
+import NavBarr from "@/app/components/NavBarr";
 
 const Page = () => {
   const router = useRouter();
@@ -90,7 +90,7 @@ const Page = () => {
 
   return (
     <>
-      <NavigationBarr />
+      <NavBarr />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div className="w-full md:w-[580px] h-screen overflow-hidden md:p-2 p-3 flex flex-col relative justify-between items-center">
           <div className="h-auto w-full bg-black border-white flex flex-col justify-center items-center border-opacity-30 p-2">

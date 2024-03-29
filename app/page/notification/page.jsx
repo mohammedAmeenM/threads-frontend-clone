@@ -1,6 +1,6 @@
 "use client"
 import BottomBar from '@/app/components/BottomBar'
-import NavigationBarr from '@/app/components/NavigationBar'
+import NavBarr from '@/app/components/NavBarr'
 import AllFollowersBtn from '@/app/components/NotificationBtns/AllFollowersBtn'
 import AllLikesBtn from '@/app/components/NotificationBtns/AllLikesBtn'
 import AllUsersBtn from '@/app/components/NotificationBtns/AllUsersBtn'
@@ -27,7 +27,7 @@ const Page = () => {
 
   return (
     <>
-    <NavigationBarr />
+    <NavBarr />
     <div style={{ display: "flex", justifyContent: "center" }}>
     <div className="w-full md:w-[768px]  h-[900px] md:p-2 p-3 flex flex-col relative justify-between items-center">
     <div className="h-auto w-full  bg-black border-white flex flex-col justify-center items-center border-opacity-30 p-2">

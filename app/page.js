@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import BottomBar from "./components/BottomBar";
 import Home from "./page/home/page";
 import { useRouter } from "next/navigation";
-import NavigationBarr from "./components/NavigationBar";
+import NavBarr from "./components/NavBarr";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <div className="bg-black w-full h-auto flex flex-col ">
-      <NavigationBarr />
+      <NavBarr />
       <Home />
       <BottomBar />
     </div>
