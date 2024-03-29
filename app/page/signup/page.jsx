@@ -127,7 +127,7 @@ const Signup = () => {
       const response = await axios.post('http://localhost:9000/api/users/signup-google', userData);
       console.log(response);
   
-      if (response) { // Check response status correctly
+      if (response) {
         mutate(null);  
         toast.success('created')
         router.push("/");
