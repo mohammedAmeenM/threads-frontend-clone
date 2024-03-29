@@ -1,7 +1,7 @@
 "use client"
 import { usePosts } from '@/app/zustand/posts/posts';
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'; // Correct import for useState
 import { FaInstagram } from "react-icons/fa6";
 import ProfileRepost from '@/app/components/ProfileRepost';
 import ProfilePosts from '@/app/components/ProfilePosts';
@@ -16,18 +16,16 @@ import BottomBar from '@/app/components/BottomBar';
 import NavBarr from '@/app/components/NavBarr';
 
 const Page = () => {
-  const [user, setUser]= useState(null)
-  const router=useRouter();
-  const [profile,setProfile]=useState([])
-  const {selected}=usePosts()
-  const { setFollowerss} = usersStore()
+  const [user, setUser] = useState(null); // Fix: Import useState from React and use it correctly
+  const router = useRouter();
+  const [profile, setProfile] = useState([]);
+  const { selected } = usePosts();
+  const { setFollowerss } = usersStore();
   
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = window.localStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
+    const storedUser = window.localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
@@ -35,13 +33,13 @@ const Page = () => {
     if (user) {
       const getProfile = async () => {
         try {
-          const response= await fetch(`http://localhost:9000/api/users/profile/${user._id}`,{
-            method:'get',
-            headers:{
-              'Content-Type':'application/json'
+          const response = await fetch(`http://localhost:9000/api/users/profile/${user._id}`, {
+            method: 'get',
+            headers: {
+              'Content-Type': 'application/json'
             }
           })
-          if(response.ok){
+          if (response.ok) {
             const data = await response.json();
             setProfile(data.user);
           }
@@ -55,30 +53,28 @@ const Page = () => {
   }, [user]);
 
   const viewFollowers = async () => {
-    if (typeof window !== 'undefined') {
-      document.getElementById('my_modal_2').showModal()
-      try {
-        const response = await fetch(`http://localhost:9000/api/users/followers/${user._id}`,{
-          method:'get',
-          headers:{
-            'Content-Type':'application/json'
-          }
-        })
-        if(response.ok){
-          const data = await response.json();
-          setFollowerss(data.user.followers)
-          console.log(data.user.followers,'folloowwww')
+    document.getElementById('my_modal_2').showModal()
+    try {
+      const response = await fetch(`http://localhost:9000/api/users/followers/${user._id}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      } catch (error) {
-        console.log(error)
+      })
+      if (response.ok) {
+        const data = await response.json();
+        setFollowerss(data.user.followers);
+        console.log(data.user.followers, 'folloowwww');
       }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   return (
     <>
       <NavBarr />
-      <div  style={{display:'flex',justifyContent:'center'}} >
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div className="w-full md:w-[580px] md:p-2 p-3 items-center  flex flex-col   mb-10">
           <div className="h-auto w-full flex justify-between   p-2">
             <div className=" w-1/2 h-auto flex flex-col ">
@@ -150,4 +146,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default Page;
