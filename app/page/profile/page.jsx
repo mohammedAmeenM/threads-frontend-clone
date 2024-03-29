@@ -16,19 +16,20 @@ import BottomBar from '@/app/components/BottomBar';
 import NavBarr from '@/app/components/NavBarr';
 
 const Page = () => {
-  const [user, setUser] = useState(null); // Fix: Import useState from React and use it correctly
+  const [user, setUser] = useState(null);
   const router = useRouter();
   const [profile, setProfile] = useState([]);
   const { selected } = usePosts();
   const { setFollowerss } = usersStore();
   
   useEffect(() => {
-    const storedUser = window.localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (typeof window !== 'undefined') {
+        const storedUser = window.localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
     }
-  }, []);
-
+}, []);
   useEffect(() => {
     if (user) {
       const getProfile = async () => {
