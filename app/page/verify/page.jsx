@@ -1,7 +1,7 @@
 "use client"
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const Verify = () => {
   const router = useRouter();

@@ -55,21 +55,23 @@ const Page = () => {
   }, [user]);
 
   const viewFollowers = async () => {
-    document.getElementById('my_modal_2').showModal()
-    try {
-      const response = await fetch(`http://localhost:9000/api/users/followers/${user._id}`,{
-        method:'get',
-        headers:{
-          'Content-Type':'application/json'
+    if (typeof window !== 'undefined') {
+      document.getElementById('my_modal_2').showModal()
+      try {
+        const response = await fetch(`http://localhost:9000/api/users/followers/${user._id}`,{
+          method:'get',
+          headers:{
+            'Content-Type':'application/json'
+          }
+        })
+        if(response.ok){
+          const data = await response.json();
+          setFollowerss(data.user.followers)
+          console.log(data.user.followers,'folloowwww')
         }
-      })
-      if(response.ok){
-        const data = await response.json();
-        setFollowerss(data.user.followers)
-        console.log(data.user.followers,'folloowwww')
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
 
