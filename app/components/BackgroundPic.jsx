@@ -13,7 +13,7 @@ const BackgroundPic = () => (
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           }}>
-          <Image src="https://static.cdninstagram.com/rsrc.php/v3/ye/r/YVr3E4VYzmE.png" layout="fill" alt='threads' objectFit="contain" />
+          <Image src="https://static.cdninstagram.com/rsrc.php/v3/ye/r/YVr3E4VYzmE.png" layout="fill" alt='Threads background' objectFit="contain" />
         </div>
       </div>
     </div>
