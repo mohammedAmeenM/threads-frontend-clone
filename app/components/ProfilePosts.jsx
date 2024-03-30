@@ -35,7 +35,7 @@ const ProfilePosts = () => {
       const userId = user ? user._id : null;
       if (userId) {
         const response = await axios.get(
-          `http://localhost:9000/api/users/post/${userId}`
+          `https://www.api.poststream.site/api/users/post/${userId}`
         );
         setPost(response.data.post);
       } else {
@@ -58,7 +58,7 @@ const ProfilePosts = () => {
   const handleSave = async (editedPost) => {
     try {
       const response = await axios.put(
-        `http://localhost:9000/api/users/post/${editedPost._id}`,
+        `https://www.api.poststream.site/api/users/post/${editedPost._id}`,
         editedPost
       );
       if (response.status === 200) {
@@ -77,7 +77,7 @@ const ProfilePosts = () => {
   const handleDelete = async (postId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:9000/api/users/post/${postId}`
+        `https://www.api.poststream.site/api/users/post/${postId}`
       );
       if (response.status === 200) {
         fetchUserPost();

@@ -33,7 +33,7 @@ const Page = () => {
     if (user) {
       const getProfile = async () => {
         try {
-          const response = await fetch(`http://localhost:9000/api/users/profile/${user._id}`, {
+          const response = await fetch(`https://www.api.poststream.site/api/users/profile/${user._id}`, {
             method: 'get',
             headers: {
               'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ const Page = () => {
   const viewFollowers = async () => {
     document.getElementById('my_modal_2').showModal()
     try {
-      const response = await fetch(`http://localhost:9000/api/users/followers/${user._id}`, {
+      const response = await fetch(`https://www.api.poststream.site/api/users/followers/${user._id}`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json'

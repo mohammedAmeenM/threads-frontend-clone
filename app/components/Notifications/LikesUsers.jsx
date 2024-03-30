@@ -17,7 +17,7 @@ const LikesUsers = () => {
         const userId = user?._id;
         if (userId) {
           const response = await axios.get(
-            `http://localhost:9000/api/users/notification/${userId}`
+            `https://www.api.poststream.site/api/users/notification/${userId}`
           );
           const likeNotifications = response.data.notifications.filter(
             (notification) => notification.type === "like"

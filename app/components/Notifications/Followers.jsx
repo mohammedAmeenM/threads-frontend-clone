@@ -17,7 +17,7 @@ const Followers = () => {
         const userId = user?._id;
         if (userId) {
           const response = await axios.get(
-            `http://localhost:9000/api/users/notification/${userId}`
+            `https://www.api.poststream.site/api/users/notification/${userId}`
           );
           setNotifications(
             response.data.notifications.filter(
@@ -54,7 +54,7 @@ const Followers = () => {
       const getUsers = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:9000/api/users/all"
+            "https://www.api.poststream.site/api/users/all"
           );
           if (response.status === 200) {
             const userMap = {};
@@ -77,13 +77,13 @@ const Followers = () => {
 
       if (followingState[userId]) {
         await axios.post(
-          `http://localhost:9000/api/users/unfollow/${logUserId}`,
+          `https://www.api.poststream.site/api/users/unfollow/${logUserId}`,
           { userUnfollowId: userId }
         );
         followingState[userId] = false;
       } else {
         await axios.post(
-          `http://localhost:9000/api/users/follow/${logUserId}`,
+          `https://www.api.poststream.site/api/users/follow/${logUserId}`,
           { userFollowId: userId }
         );
         followingState[userId] = true;

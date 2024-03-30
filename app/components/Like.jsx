@@ -11,7 +11,7 @@ const Like = ({ userId, postId  }) => {
   useEffect(() => {
     const checkLikedStatus = async () => {
       try {
-        const response = await axios.get(`http://localhost:9000/api/users/postId/${postId}`);
+        const response = await axios.get(`https://www.api.poststream.site/api/users/postId/${postId}`);
         if (response.data && response.data.post) { 
           const { post } = response.data;
           setLiked(post.likes.includes(userId));
@@ -32,14 +32,14 @@ const Like = ({ userId, postId  }) => {
     try {
       if (!loading) {
         if (liked) {
-          const response = await axios.post(`http://localhost:9000/api/users/post/unlike/${postId}`, { userId  });
+          const response = await axios.post(`https://www.api.poststream.site/api/users/post/unlike/${postId}`, { userId  });
           if (response.status === 200) {
             setLiked(false);
           } else {
             console.log('error unliking');
           }
         } else {
-          await axios.post(`http://localhost:9000/api/users/post/like/${postId}`, { userId  });
+          await axios.post(`https://www.api.poststream.site/api/users/post/like/${postId}`, { userId  });
           setLiked(true);
         }
       }

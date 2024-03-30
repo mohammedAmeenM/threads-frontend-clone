@@ -38,7 +38,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:9000/api/users/profile/${userId}`);
+        const response = await axios.get(`https://www.api.poststream.site/api/users/profile/${userId}`);
         if (response.status === 200) {
           const userData = response.data.user;
           setName(userData.name);
@@ -64,7 +64,7 @@ const EditProfile = () => {
       formData.append("bio", bio);
       formData.append("profilePic", profilePic);
 
-      const response = await axios.patch(`http://localhost:9000/api/users/updateProfile/${userId}`, formData);
+      const response = await axios.patch(`https://www.api.poststream.site/api/users/updateProfile/${userId}`, formData);
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         toast.success('Successfully edited profile');

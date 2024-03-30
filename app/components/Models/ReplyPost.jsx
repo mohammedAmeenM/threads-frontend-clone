@@ -33,7 +33,7 @@ const ReplyPost = ({ postId }) => {
       const getPostById = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:9000/api/users/postId/${postId}`
+            `https://www.api.poststream.site/api/users/postId/${postId}`
           );
           setPost(response.data.post);
         } catch (error) {
@@ -58,7 +58,7 @@ const ReplyPost = ({ postId }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:9000/api/users/post/${postId}/reply`,
+        `https://www.api.poststream.site/api/users/post/${postId}/reply`,
         data
       );
       modalRef.current.close();

@@ -41,7 +41,7 @@ const UserProfilePost = ({ userId }) => {
       const getUsers = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:9000/api/users/all"
+            "https://www.api.poststream.site/api/users/all"
           );
           if (response.status === 200) {
             const userMap = {};
@@ -64,13 +64,13 @@ const UserProfilePost = ({ userId }) => {
 
       if (followingState[userId]) {
         await axios.post(
-          `http://localhost:9000/api/users/unfollow/${logUserId}`,
+          `https://www.api.poststream.site/api/users/unfollow/${logUserId}`,
           { userUnfollowId: userId }
         );
         followingState[userId] = false;
       } else {
         await axios.post(
-          `http://localhost:9000/api/users/follow/${logUserId}`,
+          `https://www.api.poststream.site/api/users/follow/${logUserId}`,
           { userFollowId: userId }
         );
         followingState[userId] = true;
@@ -89,7 +89,7 @@ const UserProfilePost = ({ userId }) => {
     const getUserPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:9000/api/users/post/${userId}`
+          `https://www.api.poststream.site/api/users/post/${userId}`
         );
         setPost(response.data.post);
       } catch (error) {

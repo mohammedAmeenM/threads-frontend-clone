@@ -26,7 +26,7 @@ const Verify = () => {
         phoneNumber: phoneNumber,
         enterOTP: inputOtp
       };
-      const response = await axios.post('http://localhost:9000/api/users/verifyOTP', otpData);
+      const response = await axios.post('https://www.api.poststream.site/api/users/verifyOTP', otpData);
       if (response.status === 200) {
         return router.push('/');
       }
