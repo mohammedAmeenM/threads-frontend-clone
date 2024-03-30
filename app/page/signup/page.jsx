@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import useAuthStore from "@/app/zustand/users/authStore";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
@@ -7,96 +7,93 @@ import { useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
-
-
-let userData
+let userData;
 
 const Signup = () => {
-  
   const router = useRouter();
 
-  // ERROR 
+  // ERROR
 
-  const [nameError, setNameError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [phoneNoError, setPhoneNoError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [nameError, setNameError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [phoneNoError, setPhoneNoError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   //input reff
 
-  const nameRef=useRef(null);
-  const usernameRef=useRef(null);
-  const emailRef=useRef(null);
-  const phoneNORef=useRef(null);
-  const passwordRef=useRef(null);
+  const nameRef = useRef(null);
+  const usernameRef = useRef(null);
+  const emailRef = useRef(null);
+  const phoneNORef = useRef(null);
+  const passwordRef = useRef(null);
 
   //signUp button
 
-  const handleSignUp= async(e)=>{
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    const inputName=nameRef.current.value;
-    const inputUsername=usernameRef.current.value;
-    const inputEmail=emailRef.current.value;
-    const inputPhoneNo=phoneNORef.current.value;
-    const inputPassword=passwordRef.current.value;
-
-
+    const inputName = nameRef.current.value;
+    const inputUsername = usernameRef.current.value;
+    const inputEmail = emailRef.current.value;
+    const inputPhoneNo = phoneNORef.current.value;
+    const inputPassword = passwordRef.current.value;
 
     if (!inputName) {
-      setNameError('Name is required');
+      setNameError("Name is required");
       return;
     } else {
-      setNameError('');
+      setNameError("");
     }
     if (!inputUsername) {
-      setUsernameError('Username is required');
+      setUsernameError("Username is required");
       return;
     } else {
-      setUsernameError('');
+      setUsernameError("");
     }
     if (!inputEmail) {
-      setEmailError('Email is required');
+      setEmailError("Email is required");
       return;
     } else {
-      setEmailError('');
+      setEmailError("");
     }
     if (!inputPhoneNo) {
-      setPhoneNoError('Phone Number is required');
+      setPhoneNoError("Phone Number is required");
       return;
     } else {
-      setPhoneNoError('');
+      setPhoneNoError("");
     }
     if (!inputPassword) {
-      setPasswordError('Password is required');
+      setPasswordError("Password is required");
       return;
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
 
     try {
-      const data={
-        name:inputName,
-        username:inputUsername,
-        email:inputEmail,
-        phoneNumber:inputPhoneNo,
-        password:inputPassword
-      }
-      const response= await axios.post('https://www.api.poststream.site/api/users/signup',data)
+      const data = {
+        name: inputName,
+        username: inputUsername,
+        email: inputEmail,
+        phoneNumber: inputPhoneNo,
+        password: inputPassword,
+      };
+      const response = await axios.post(
+        "https://www.api.poststream.site/api/users/signup",
+        data
+      );
       console.log(response.data._id);
-      if(response.status===201){
-        localStorage.setItem("user",JSON.stringify(response.data))
-        toast.success('created')
-        return  router.push('/')
+      if (response.status === 201) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+        toast.success("created");
+        return router.push("/");
       }
     } catch (error) {
-      console.log(error,'signupppp')
-      toast.error('error')
+      console.log(error, "signupppp");
+      toast.error("error");
     }
-  }
+  };
 
-
-  const {data:session,mutate}=useSession()
+  const { data: session, mutate } = useSession();
   const {
     googleUserName,
     setGoogleUserName,
@@ -104,7 +101,7 @@ const Signup = () => {
     googleEmail,
     setGoogleProfile,
     googleProfile,
-  }=useAuthStore();
+  } = useAuthStore();
 
   useEffect(() => {
     if (session && session.user) {
@@ -113,31 +110,32 @@ const Signup = () => {
       setGoogleProfile(session.user.image);
     }
   }, [session, setGoogleEmail, setGoogleProfile, setGoogleUserName]);
-     
+
   const handleGoogleSign = async () => {
-  
     try {
-      await signIn('google',{callbackUrl:'/'});
+      await signIn("google", { callbackUrl: "/" });
       const userData = {
         username: googleUserName,
         email: googleEmail,
-        profilePic: googleProfile
+        profilePic: googleProfile,
       };
-  
-      const response = await axios.post('https://www.api.poststream.site/api/users/signup-google', userData);
+
+      const response = await axios.post(
+        "https://www.api.poststream.site/api/users/signup-google",
+        userData
+      );
       console.log(response);
-  
+
       if (response) {
-        mutate(null);  
-        toast.success('created')
+        mutate(null);
+        toast.success("created");
         router.push("/");
       } else {
         console.log("Unexpected response:", response);
       }
-  
     } catch (error) {
       console.log(error);
-      toast.error('error')
+      toast.error("error");
     }
   };
   return (
@@ -153,7 +151,7 @@ const Signup = () => {
               required
               className="w-1/2 placeholder:ps-2 h-12 rounded-lg p-3 bg-stone-700"
             />
-             {nameError && <span className="text-red-500">{nameError}</span>}
+            {nameError && <span className="text-red-500">{nameError}</span>}
             <input
               type="text"
               placeholder="Username"
@@ -162,7 +160,9 @@ const Signup = () => {
               required
               className="w-1/2 placeholder:ps-2 h-12 p-3 rounded-lg bg-stone-700"
             />
-            {usernameError && <span className="text-red-500">{usernameError}</span>}
+            {usernameError && (
+              <span className="text-red-500">{usernameError}</span>
+            )}
           </div>
           <input
             type="email"
@@ -190,7 +190,9 @@ const Signup = () => {
             required
             className="w-full placeholder:ps-2 h-12 rounded-lg bg-stone-700 p-3"
           />
-           {passwordError && <span className="text-red-500">{passwordError}</span>}
+          {passwordError && (
+            <span className="text-red-500">{passwordError}</span>
+          )}
           <button
             className="bg-white text-black w-80 h-12 rounded-lg"
             onClick={handleSignUp}
@@ -209,14 +211,12 @@ const Signup = () => {
             <hr className="w-full border-t-[1px] border-gray-500" />
           </div>
           <span className="text-center my-3">
-
-              <button
-                className="bg-transparent border-y-pink-200  text-white w-80 h-12 rounded-lg border border-white flex items-center justify-center"
-                onClick={handleGoogleSign}
-              >
-                <FcGoogle className="mx-5" /> Signup with Google
-              </button>
-            
+            <button
+              className="bg-transparent border-y-pink-200  text-white w-80 h-12 rounded-lg border border-white flex items-center justify-center"
+              onClick={handleGoogleSign}
+            >
+              <FcGoogle className="mx-5" /> Signup with Google
+            </button>
           </span>
         </div>
       </div>
