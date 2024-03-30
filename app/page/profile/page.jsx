@@ -1,26 +1,26 @@
-"use client"
-import { usePosts } from '@/app/zustand/posts/posts';
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'; // Correct import for useState
+"use client";
+import { usePosts } from "@/app/zustand/posts/posts";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react"; // Correct import for useState
 import { FaInstagram } from "react-icons/fa6";
-import ProfileRepost from '@/app/components/ProfileRepost';
-import ProfilePosts from '@/app/components/ProfilePosts';
-import ProfileReplyPosts from '@/app/components/ProfileReplyPosts';
-import Threads from '@/app/components/Threads';
-import Replies from '@/app/components/Replies';
-import Reposts from '@/app/components/Reposts';
-import EditProfile from '@/app/components/Models/EditProfile';
-import Follower from '@/app/components/Models/Follower';
-import usersStore from '@/app/zustand/users/usersStore';
-import BottomBar from '@/app/components/BottomBar';
-import NavBarr from '@/app/components/NavBarr';
+import ProfileRepost from "@/app/components/ProfileRepost";
+import ProfilePosts from "@/app/components/ProfilePosts";
+import ProfileReplyPosts from "@/app/components/ProfileReplyPosts";
+import Threads from "@/app/components/Threads";
+import Replies from "@/app/components/Replies";
+import Reposts from "@/app/components/Reposts";
+import EditProfile from "@/app/components/Models/EditProfile";
+import Follower from "@/app/components/Models/Follower";
+import usersStore from "@/app/zustand/users/usersStore";
+import BottomBar from "@/app/components/BottomBar";
+import NavBarr from "@/app/components/NavBarr";
 
 const Page = () => {
-  const { user ,setUser} = usersStore();
+  const { user, setUser } = usersStore();
   const [profile, setProfile] = useState([]);
   const { selected } = usePosts();
   const { setFollowerss } = usersStore();
-  
+
   useEffect(() => {
     const userData = window.localStorage.getItem("user");
     if (userData) {
@@ -28,24 +28,25 @@ const Page = () => {
     }
   }, [setUser]);
 
-
   useEffect(() => {
     if (user) {
       const getProfile = async () => {
         try {
-          const response = await fetch(`https://www.api.poststream.site/api/users/profile/${user._id}`, {
-            method: 'get',
-            headers: {
-              'Content-Type': 'application/json'
+          const response = await fetch(
+            `https://www.api.poststream.site/api/users/profile/${user._id}`,
+            {
+              method: "get",
+              headers: {
+                "Content-Type": "application/json",
+              },
             }
-          })
+          );
           if (response.ok) {
             const data = await response.json();
             setProfile(data.user);
           }
-          
         } catch (error) {
-          console.log('error profile', error);
+          console.log("error profile", error);
         }
       };
       getProfile();
@@ -53,40 +54,43 @@ const Page = () => {
   }, [user]);
 
   const viewFollowers = async () => {
-    document.getElementById('my_modal_2').showModal()
+    document.getElementById("my_modal_2").showModal();
     try {
-      const response = await fetch(`https://www.api.poststream.site/api/users/followers/${user._id}`, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `https://www.api.poststream.site/api/users/followers/${user._id}`,
+        {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
+      );
       if (response.ok) {
         const data = await response.json();
         setFollowerss(data.user.followers);
-        console.log(data.user.followers, 'folloowwww');
+        console.log(data.user.followers, "folloowwww");
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
       <NavBarr />
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <div className="w-full md:w-[580px] md:p-2 p-3 items-center  flex flex-col   mb-10">
           <div className="h-auto w-full flex justify-between   p-2">
             <div className=" w-1/2 h-auto flex flex-col ">
-              <span className='font-bold text-xl'>{profile.username}</span>
+              <span className="font-bold text-xl">{profile.username}</span>
 
               <div className="flex gap-1">
-                <span >{profile.name}</span>
+                <span>{profile.name}</span>
                 <button className="bg-stone-900 w-[90px] text-xs rounded-xl text-white text-opacity-30 ">
                   threads.net
                 </button>
               </div>
-              <span className='  mt-6'>{profile.bio}</span>
+              <span className="  mt-6">{profile.bio}</span>
 
               <div className="flex justify-stretch ">
                 <div className="flex gap-1 mt-5 relative">
@@ -94,17 +98,19 @@ const Page = () => {
                     className={`w-4 h-4 bg-black absolute rounded-full`}
                     style={{
                       backgroundImage: `url(${
-                        profile.profilePic 
+                        profile.profilePic
                           ? profile.profilePic
                           : "https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
                       })`,
                       backgroundSize: "contain",
                     }}
                   ></div>
-                </div>
-                {" "}{" "}
+                </div>{" "}
                 <Follower />
-                <span className="mt-4 text-white text-opacity-20 mx-8 hover:underline" onClick={viewFollowers}>
+                <span
+                  className="mt-4 text-white text-opacity-20 mx-8 hover:underline"
+                  onClick={viewFollowers}
+                >
                   {" "}
                   {profile?.followers?.length} followers
                 </span>
@@ -115,8 +121,9 @@ const Page = () => {
                 className="h-16 w-16 rounded-full bg-white box-border md:h-20 md:w-20"
                 style={{
                   backgroundImage: `url(${
-                    profile.profilePic?profile.profilePic:
-                      "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
+                    profile.profilePic
+                      ? profile.profilePic
+                      : "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
                   })`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -127,14 +134,17 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <button className="w-full h-10 bg-transparent border border-opacity-20 border-white text-center rounded-md mt-3" onClick={() => document.getElementById('my_modal_3').showModal()}>
+          <button
+            className="w-full h-10 bg-transparent border border-opacity-20 border-white text-center rounded-md mt-3"
+            onClick={() => document.getElementById("my_modal_3").showModal()}
+          >
             Edit Profile
           </button>
           <div className="w-full h-full  flex justify-evenly items-center  text-white text-center mt-2 p-3">
             <Threads />
             <Replies />
             <Reposts />
-          </div> 
+          </div>
           <EditProfile />
           {selected === "profileRepliPost" && <ProfileReplyPosts />}
           {selected === "repost" && <ProfileRepost />}
@@ -143,7 +153,7 @@ const Page = () => {
       </div>
       <BottomBar />
     </>
-  )
-}
+  );
+};
 
 export default Page;
