@@ -82,7 +82,7 @@ const Signup = () => {
         phoneNumber:inputPhoneNo,
         password:inputPassword
       }
-      const response= await axios.post('http://localhost:9000/api/users/signup',data)
+      const response= await axios.post('https://www.api.poststream.site/api/users/signup',data)
       console.log(response.data._id);
       if(response.status===201){
         localStorage.setItem("user",JSON.stringify(response.data))
@@ -124,7 +124,7 @@ const Signup = () => {
         profilePic: googleProfile
       };
   
-      const response = await axios.post('http://localhost:9000/api/users/signup-google', userData);
+      const response = await axios.post('https://www.api.poststream.site/api/users/signup-google', userData);
       console.log(response);
   
       if (response) {
