@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
   }, [router]);
 
   return (
-    <div className="bg-black w-full h-auto flex flex-col ">
+    <div className=" w-full h-auto flex flex-col ">
       <NavBarr />
       <Home />
       <BottomBar />
