@@ -71,7 +71,7 @@ const ReplyPost = ({ postId }) => {
   };
 
   return (
-    <dialog ref={modalRef} id={`my_modal_${postId}`} className="modal">
+    <dialog ref={modalRef} id={`my_modal_${postId}`} className="modal bg-black">
       <div className="modal-box md:w-[80%] md:max-w-2xl w-full h-full bg-black ">
         <div className="w-auto h-auto md:p-2 p-3 flex flex-col justify-between items-center mb-10">
           <div className="h-auto w-full bg-black border-white flex border-opacity-30 p-2">

@@ -77,8 +77,8 @@ const EditProfile = () => {
 
   return (
     <>
-      <dialog id="my_modal_3" className="modal p-20">
-        <div className="modal-box bg-stone-1000">
+      <dialog id="my_modal_3" className="modal p-20 bg-black">
+        <div className="modal-box bg-stone-1000 ">
           <form method="dialog" className="modal-content">
             <div className="w-full h-full flex flex-col justify-center items-center gap-y-2 text-white">
               <div className="w-full h-full flex flex-col gap-y-2 text-white">

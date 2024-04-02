@@ -5,6 +5,7 @@ import { GoHeart } from "react-icons/go";
 import { IoHeart } from "react-icons/io5";
 
 const Like = ({ userId, postId  }) => {
+  const [post , setPost]=useState([])
   const [liked, setLiked] = useState(false);
   const [loading, setLoading] = useState(true); 
 
@@ -14,6 +15,7 @@ const Like = ({ userId, postId  }) => {
         const response = await axios.get(`https://www.api.poststream.site/api/users/postId/${postId}`);
         if (response.data && response.data.post) { 
           const { post } = response.data;
+          setPost(post);
           setLiked(post.likes.includes(userId));
           setLoading(false); 
         } else {
@@ -35,12 +37,14 @@ const Like = ({ userId, postId  }) => {
           const response = await axios.post(`https://www.api.poststream.site/api/users/post/unlike/${postId}`, { userId  });
           if (response.status === 200) {
             setLiked(false);
+            setPost(prevPost => ({ ...prevPost, likes: prevPost.likes.filter(like => like !== userId) }));
           } else {
             console.log('error unliking');
           }
         } else {
           await axios.post(`https://www.api.poststream.site/api/users/post/like/${postId}`, { userId  });
           setLiked(true);
+          setPost(prevPost => ({ ...prevPost, likes: [...prevPost.likes, userId] }));
         }
       }
     } catch (error) {
@@ -49,12 +53,15 @@ const Like = ({ userId, postId  }) => {
   };
 
   return (
+    <div className="flex items-center flex-col">
     <div
-      className="w-9 h-9 bg-transparent hover:bg-stone-900 rounded-full flex justify-center items-center"
+      className="w-9 h-9 bg-transparent hover:bg-stone-900 rounded-full flex justify-center items-center mt-3"
       onClick={handleLikeClick}
     >
       {liked ? <IoHeart className="text-2xl text-red-700" /> : <GoHeart className="text-2xl" />}
     </div>
+    <div  className="w-auto h-3 text-white text-opacity-20 gap-2 flex ">{post?.likes?.length} likes</div>
+  </div>
   );
 }
 

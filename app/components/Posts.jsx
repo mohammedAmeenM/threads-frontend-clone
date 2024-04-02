@@ -15,8 +15,8 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
-import getElapsedTime from "./Timeset/time";
 import Image from "next/image";
+import getElapsedTime from "./Timeset/time";
 
 const Posts = () => {
   const router = useRouter();
@@ -166,7 +166,7 @@ const Posts = () => {
 
                 <div className="flex justify-between gap-3 items-center ">
                   <span className="text-xs text-opacity-40 text-white">
-                    {getElapsedTime(item.createdOn)}
+                    {getElapsedTime(item?.createdOn)}
                   </span>
 
                   <Dropdown className="bg-black">
@@ -225,7 +225,7 @@ const Posts = () => {
 
               <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3">
                 {/* <span>{item.replies.length} replies .</span> */}
-                <span>{item.likes.length} likes</span>
+                {/* <span>{item.likes.length} likes</span> */}
               </div>
             </div>
           </div>
