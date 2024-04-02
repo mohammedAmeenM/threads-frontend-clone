@@ -16,6 +16,7 @@ import BottomBar from "@/app/components/BottomBar";
 import NavBarr from "@/app/components/NavBarr";
 
 const Page = () => {
+  const router = useRouter()
   const { user, setUser } = usersStore();
   const [profile, setProfile] = useState([]);
   const { selected } = usePosts();
@@ -26,7 +27,12 @@ const Page = () => {
     if (userData) {
       setUser(JSON.parse(userData));
     }
-  }, [setUser]);
+    if (userData) {
+      router.push("/page/profile");
+    } else {
+      router.push("/page/login");
+    }
+  }, [setUser,router]);
 
   useEffect(() => {
     if (user) {

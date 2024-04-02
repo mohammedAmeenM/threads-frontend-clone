@@ -9,6 +9,7 @@ import NavBarr from "@/app/components/NavBarr";
 import Image from "next/image";
 
 const Page = () => {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
@@ -21,10 +22,13 @@ const Page = () => {
       setUserId(user._id);
       setProfilePic(user.profilePic);
       setUsername(user.username);
+      router.push('/page/create')
+    }else{
+      router.push('/page/login')
     }
-  }, []);
+  }, [router]);
 
-  const router = useRouter();
+
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);

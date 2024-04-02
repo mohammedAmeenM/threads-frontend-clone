@@ -22,7 +22,12 @@ const Page = () => {
     if (userData) {
       setUser(JSON.parse(userData));
     }
-  }, []);
+    if (userData) {
+      router.push("/page/search");
+    } else {
+      router.push("/page/login");
+    }
+  }, [router]);
 
   useEffect(() => {
     if (user) {

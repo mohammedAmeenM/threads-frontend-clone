@@ -8,9 +8,11 @@ import Allusers from '@/app/components/Notifications/Allusers'
 import Followers from '@/app/components/Notifications/Followers'
 import LikesUsers from '@/app/components/Notifications/LikesUsers'
 import usersStore from '@/app/zustand/users/usersStore'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const Page = () => {
+  const router = useRouter()
     const { selected ,setUser} = usersStore();
 
 
@@ -20,7 +22,12 @@ const Page = () => {
       if (userData) {
         setUser(JSON.parse(userData));
       }
-    }, [setUser]);
+      if (userData) {
+        router.push("/page/notification");
+      } else {
+        router.push("/page/login");
+      }
+    }, [setUser,router]);
 
 
 
