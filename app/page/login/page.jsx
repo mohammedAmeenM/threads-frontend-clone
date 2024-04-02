@@ -130,9 +130,9 @@ const Login = () => {
             Log in
           </button>
           <span className="text-center text-stone-400 text-sm hover:text-white">
-            <a href="#" className="">
+            {/* <a href="#" className="">
               Forgot Password?
-            </a>
+            </a> */}
           </span>
           <span className="text-center text-stone-400 text-sm hover:text-white">
             <a className="" onClick={() => route.push("/page/signup")}>
