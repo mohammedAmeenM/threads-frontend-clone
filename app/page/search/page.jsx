@@ -5,7 +5,6 @@ import { RiSearchLine } from "react-icons/ri";
 import BottomBar from "@/app/components/BottomBar";
 import { useRouter } from "next/navigation";
 import NavBarr from "@/app/components/NavBarr";
-import Image from "next/image";
 
 const Page = () => {
   const router = useRouter();
@@ -76,6 +75,19 @@ const Page = () => {
         followingState[userId] = true;
       }
       setIsFollowing(followingState);
+
+      setUsers(prevUsers => {
+        return prevUsers.map(user => {
+          if (user._id === userId) {
+            const updatedUser = {
+              ...user,
+              followers: followingState[userId] ? [...user.followers, logUserId] : user.followers.filter(followerId => followerId !== logUserId)
+            };
+            return updatedUser;
+          }
+          return user;
+        });
+      });
     } catch (error) {
       console.error(error, "follow");
     }
@@ -125,20 +137,19 @@ const Page = () => {
               >
                 <div className="w-full md:w-1/2 h-auto flex justify-start gap-2 items-center mb-3 md:mb-0">
                   <div className="w-12 h-12 bg-black rounded-full overflow-hidden">
-                  <div
-          className="h-10 w-10 rounded-full bg-white box-border "
-          style={{
-            backgroundImage:`url(${
-              item.profilePic
-                ? item.profilePic
-                : "https://i0.wp.com/www.spielanime.com/wp-content/uploads/2023/07/jujutsu-kaisen-season-1-recap-before-season-2.jpg?fit=1024%2C576&ssl=1"
-            })`,
-            backgroundSize: "contain",
-            backgroundSize: "cover",
-          }}
-        >
-          {" "}
-        </div>
+                    <div
+                      className="h-10 w-10 rounded-full bg-white box-border "
+                      style={{
+                        backgroundImage:`url(${
+                          item.profilePic
+                            ? item.profilePic
+                            : "https://i0.wp.com/www.spielanime.com/wp-content/uploads/2023/07/jujutsu-kaisen-season-1-recap-before-season-2.jpg?fit=1024%2C576&ssl=1"
+                        })`,
+                        backgroundSize: "contain",
+                        backgroundSize: "cover",
+                      }}
+                    >
+                    </div>
                   </div>
                   <div className="w-auto h-auto flex flex-col ms-2">
                     <span
