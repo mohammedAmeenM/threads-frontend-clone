@@ -195,7 +195,7 @@ const UserProfilePost = ({ userId }) => {
                       <Comment postId={item._id} /> <Repost postId={item._id} />
                     </div>
                     <div className="w-auto h-3 text-white text-opacity-20 gap-2 flex ms-3 ml-16 mt-[-10px]">
-                      <span>{item?.replies?.length} replies</span>
+                      {/* <span>{item?.replies?.length} replies</span> */}
                     </div>
                   </div>
                 </div>
