@@ -33,7 +33,7 @@ const ProfileReplyPosts = () => {
       const getReply = async () => {
         try {
           const response = await axios.get(
-            `https://www.api.poststream.site/api/users/post/user/reply/${user._id}`
+            `http://localhost:9000/api/posts/replys/${user._id}`
           );
           console.log(response.data.posts);
           if (response.status === 200) {

@@ -44,8 +44,9 @@ const Page = () => {
     formData.append("userId", userId);
     formData.append("text", text);
     formData.append("image", image);
+    
     try {
-      const response = await fetch("https://www.api.poststream.site/api/users/post", {
+      const response = await fetch("http://localhost:9000/api/posts", {
         method: "POST",
         body: formData,
       });

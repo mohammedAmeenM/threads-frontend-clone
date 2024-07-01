@@ -42,7 +42,7 @@ const Login = () => {
         email: googleEmail,
       };
       const response = await axios.post(
-        "https://www.api.poststream.site/api/users/google-login",
+        "http://localhost:9000/api/users/google-login",
         userData
       );
       console.log(response);
@@ -83,7 +83,7 @@ const Login = () => {
       };
 
       const response = await axios.post(
-        "https://www.api.poststream.site/api/users/login",
+        "http://localhost:9000/api/users/login",
         data
       );
       if (response.status === 200) {

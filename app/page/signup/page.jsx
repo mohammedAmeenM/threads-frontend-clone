@@ -78,7 +78,7 @@ const Signup = () => {
         password: inputPassword,
       };
       const response = await axios.post(
-        "https://www.api.poststream.site/api/users/signup",
+        "http://localhost:9000/api/users/signup",
         data
       );
       console.log(response.data._id);
@@ -121,7 +121,7 @@ const Signup = () => {
       };
 
       const response = await axios.post(
-        "https://www.api.poststream.site/api/users/signup-google",
+        "http://localhost:9000/api/users/signup-google",
         userData
       );
       console.log(response);

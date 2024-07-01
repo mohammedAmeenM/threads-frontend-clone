@@ -30,7 +30,7 @@ const Following = () => {
       const getUsers = async () => {
         try {
           const response = await axios.get(
-            "https://www.api.poststream.site/api/users/all"
+            "http://localhost:9000/api/users"
           );
           if (response.status === 200) {
             const userMap = {};
@@ -53,13 +53,13 @@ const Following = () => {
 
       if (followingState[userId]) {
         await axios.post(
-          `https://www.api.poststream.site/api/users/unfollow/${logUserId}`,
+          `http://localhost:9000/api/users/unfollow/${logUserId}`,
           { userUnfollowId: userId }
         );
         followingState[userId] = false;
       } else {
         await axios.post(
-          `https://www.api.poststream.site/api/users/follow/${logUserId}`,
+          `http://localhost:9000/api/users/follow/${logUserId}`,
           { userFollowId: userId }
         );
         followingState[userId] = true;

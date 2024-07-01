@@ -23,7 +23,7 @@ const UserProfileReposts = ({ userId, logUserId }) => {
     const getReposts = async () => {
       try {
         const response = await axios.get(
-          `https://www.api.poststream.site/api/users/post/repost/${userId}`
+          `http://localhost:9000/api/posts/repost/${userId}`
         );
         console.log(response.data.posts);
         if (response.status === 200) {

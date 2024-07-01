@@ -39,7 +39,7 @@ const Page = () => {
       const getProfile = async () => {
         try {
           const response = await fetch(
-            `https://www.api.poststream.site/api/users/profile/${user._id}`,
+            `http://localhost:9000/api/users/${user._id}`,
             {
               method: "get",
               headers: {
@@ -63,7 +63,7 @@ const Page = () => {
     document.getElementById("my_modal_2").showModal();
     try {
       const response = await fetch(
-        `https://www.api.poststream.site/api/users/followers/${user._id}`,
+        `http://localhost:9000/api/users/followers/${user._id}`,
         {
           method: "get",
           headers: {

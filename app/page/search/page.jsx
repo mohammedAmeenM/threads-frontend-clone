@@ -13,7 +13,7 @@ const Page = () => {
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [user, setUser] = useState(null);
-  const [logUserId, setLogUserId] = useState(false);
+  const [senderId, setSenderId] = useState(false);
   const [isFollowing, setIsFollowing] = useState({});
 
   useEffect(() => {
@@ -30,21 +30,21 @@ const Page = () => {
 
   useEffect(() => {
     if (user) {
-      setLogUserId(user._id);
+      setSenderId(user._id);
     }
   }, [user]);
 
   useEffect(() => {
-    if (logUserId) {
+    if (senderId) {
       const getUsers = async () => {
         try {
           const response = await axios.get(
-            "https://www.api.poststream.site/api/users/all"
+            "http://localhost:9000/api/users"
           );
           if (response.status === 200) {
             const userMap = {};
             response.data.users.forEach((user) => {
-              userMap[user._id] = user.followers.includes(logUserId);
+              userMap[user._id] = user.followers.includes(senderId);
             });
             setUsers(response.data.users);
             setFilteredUsers(response.data.users);
@@ -56,20 +56,20 @@ const Page = () => {
       };
       getUsers();
     }
-  }, [logUserId]);
+  }, [senderId]);
 
   const handleFollow = async (userId) => {
     try {
       const followingState = { ...isFollowing };
       if (followingState[userId]) {
         await axios.post(
-          `https://www.api.poststream.site/api/users/unfollow/${logUserId}`,
+          `http://localhost:9000/api/users/unfollow/${senderId}`,
           { userUnfollowId: userId }
         );
         followingState[userId] = false;
       } else {
         await axios.post(
-          `https://www.api.poststream.site/api/users/follow/${logUserId}`,
+          `http://localhost:9000/api/users/follow/${senderId}`,
           { userFollowId: userId }
         );
         followingState[userId] = true;
@@ -81,7 +81,7 @@ const Page = () => {
           if (user._id === userId) {
             const updatedUser = {
               ...user,
-              followers: followingState[userId] ? [...user.followers, logUserId] : user.followers.filter(followerId => followerId !== logUserId)
+              followers: followingState[userId] ? [...user.followers, senderId] : user.followers.filter(followerId => followerId !== senderId)
             };
             return updatedUser;
           }
@@ -98,9 +98,9 @@ const Page = () => {
       .filter((user) =>
         user.username.toLowerCase().includes(search.toLowerCase())
       )
-      .filter((user) => user._id !== logUserId);
+      .filter((user) => user._id !== senderId);
     setFilteredUsers(filtered);
-  }, [search, users, logUserId]);
+  }, [search, users, senderId]);
 
   const handleProfile = (userId) => {
     router.push(`/page/user/${userId}`);

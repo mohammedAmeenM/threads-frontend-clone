@@ -31,7 +31,7 @@ function Repost({postId}) {
     };
 
     try {
-      const response = await axios.post(`https://www.api.poststream.site/api/users/post/repost/${postId}`,data)
+      const response = await axios.post(`http://localhost:9000/api/posts/repost/${postId}`,data)
     
       if(response.status===200){
         toast.success('success')
