@@ -30,7 +30,7 @@ const Follower = () => {
       const getUsers = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:9000/api/users"
+            "https://social-media-rest-apis.onrender.com/api/users"
           );
           if (response.status === 200) {
             const userMap = {};
@@ -53,13 +53,13 @@ const Follower = () => {
 
       if (followingState[userId]) {
         await axios.post(
-          `http://localhost:9000/api/users/unfollow/${logUserId}`,
+          `https://social-media-rest-apis.onrender.com/api/users/unfollow/${logUserId}`,
           { userUnfollowId: userId }
         );
         followingState[userId] = false;
       } else {
         await axios.post(
-          `http://localhost:9000/api/users/follow/${logUserId}`,
+          `https://social-media-rest-apis.onrender.com/api/users/follow/${logUserId}`,
           { userFollowId: userId }
         );
         followingState[userId] = true;

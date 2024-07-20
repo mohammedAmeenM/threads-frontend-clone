@@ -23,7 +23,7 @@ const UserProfileReposts = ({ userId, logUserId }) => {
     const getReposts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:9000/api/posts/repost/${userId}`
+          `https://social-media-rest-apis.onrender.com/api/posts/repost/${userId}`
         );
         console.log(response.data.posts);
         if (response.status === 200) {

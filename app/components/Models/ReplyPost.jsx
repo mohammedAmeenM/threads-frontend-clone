@@ -33,7 +33,7 @@ const ReplyPost = ({ postId }) => {
       const getPostById = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:9000/api/posts/post/${postId}`
+            `https://social-media-rest-apis.onrender.com/api/posts/post/${postId}`
           );
           setPost(response.data.post);
         } catch (error) {
@@ -58,7 +58,7 @@ const ReplyPost = ({ postId }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:9000/api/posts/${postId}/reply`,
+        `https://social-media-rest-apis.onrender.com/api/posts/${postId}/reply`,
         data
       );
       modalRef.current.close();

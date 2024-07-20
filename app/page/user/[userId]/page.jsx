@@ -42,7 +42,7 @@ import NavBarr from "@/app/components/NavBarr";
     if (logUserId) {
       const getUserById = async () => {
         try {
-          const response = await axios.get(`http://localhost:9000/api/users/${userId}`);
+          const response = await axios.get(`https://social-media-rest-apis.onrender.com/api/users/${userId}`);
           if (response.status === 200) {
             setUser(response.data.user);
             setIsFollowing(response.data.user.followers.includes(logUserId));
@@ -61,12 +61,12 @@ import NavBarr from "@/app/components/NavBarr";
       const senderId = userData ? userData._id : null;
       if (senderId) {
         if (isFollowing) {
-          await axios.post(`http://localhost:9000/api/users/unfollow/${senderId}`, {
+          await axios.post(`https://social-media-rest-apis.onrender.com/api/users/unfollow/${senderId}`, {
             userUnfollowId: userId,
           });
           setIsFollowing(false);
         } else {
-          await axios.post(`http://localhost:9000/api/users/follow/${senderId}`, {
+          await axios.post(`https://social-media-rest-apis.onrender.com/api/users/follow/${senderId}`, {
             userFollowId: userId,
           });
           setIsFollowing(true);
@@ -80,7 +80,7 @@ import NavBarr from "@/app/components/NavBarr";
   const viewFollowings= async () => {
     document.getElementById('my_modal_5').showModal()
     try {
-      const response = await fetch(`http://localhost:9000/api/users/following/${userId}`)
+      const response = await fetch(`https://social-media-rest-apis.onrender.com/api/users/following/${userId}`)
       if(response.ok){
         const data = await response.json();
         setFollowings(data.user.following)

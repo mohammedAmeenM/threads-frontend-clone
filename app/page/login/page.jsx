@@ -42,7 +42,7 @@ const Login = () => {
         email: googleEmail,
       };
       const response = await axios.post(
-        "http://localhost:9000/api/users/google-login",
+        "https://social-media-rest-apis.onrender.com/api/users/google-login",
         userData
       );
       console.log(response);
@@ -83,7 +83,7 @@ const Login = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:9000/api/users/login",
+        "https://social-media-rest-apis.onrender.com/api/users/login",
         data
       );
       if (response.status === 200) {

@@ -12,7 +12,7 @@ const Like = ({ userId, postId  }) => {
   useEffect(() => {
     const checkLikedStatus = async () => {
       try {
-        const response = await axios.get(`http://localhost:9000/api/posts/post/${postId}`);
+        const response = await axios.get(`https://social-media-rest-apis.onrender.com/api/posts/post/${postId}`);
         if (response.data && response.data.post) { 
           const { post } = response.data;
           setPost(post);
@@ -34,7 +34,7 @@ const Like = ({ userId, postId  }) => {
     try {
       if (!loading) {
         if (liked) {
-          const response = await axios.post(`http://localhost:9000/api/posts/unlike/${postId}`, { userId  });
+          const response = await axios.post(`https://social-media-rest-apis.onrender.com/api/posts/unlike/${postId}`, { userId  });
           if (response.status === 200) {
             setLiked(false);
             setPost(prevPost => ({ ...prevPost, likes: prevPost.likes.filter(like => like !== userId) }));
@@ -42,7 +42,7 @@ const Like = ({ userId, postId  }) => {
             console.log('error unliking');
           }
         } else {
-          await axios.post(`http://localhost:9000/api/posts/like/${postId}`, { userId  });
+          await axios.post(`https://social-media-rest-apis.onrender.com/api/posts/like/${postId}`, { userId  });
           setLiked(true);
           setPost(prevPost => ({ ...prevPost, likes: [...prevPost.likes, userId] }));
         }

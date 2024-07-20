@@ -78,7 +78,7 @@ const Signup = () => {
         password: inputPassword,
       };
       const response = await axios.post(
-        "http://localhost:9000/api/users/signup",
+        "https://social-media-rest-apis.onrender.com/api/users/signup",
         data
       );
       console.log(response.data._id);
@@ -121,7 +121,7 @@ const Signup = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:9000/api/users/signup-google",
+        "https://social-media-rest-apis.onrender.com/api/users/signup-google",
         userData
       );
       console.log(response);

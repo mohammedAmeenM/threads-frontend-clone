@@ -33,7 +33,7 @@ const ProfileReplyPosts = () => {
       const getReply = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:9000/api/posts/replys/${user._id}`
+            `https://social-media-rest-apis.onrender.com/api/posts/replys/${user._id}`
           );
           console.log(response.data.posts);
           if (response.status === 200) {

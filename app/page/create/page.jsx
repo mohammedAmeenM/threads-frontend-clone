@@ -46,7 +46,7 @@ const Page = () => {
     formData.append("image", image);
     
     try {
-      const response = await fetch("http://localhost:9000/api/posts", {
+      const response = await fetch("https://social-media-rest-apis.onrender.com/api/posts", {
         method: "POST",
         body: formData,
       });

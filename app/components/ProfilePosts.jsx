@@ -35,7 +35,7 @@ const ProfilePosts = () => {
       const userId = user ? user._id : null;
       if (userId) {
         const response = await axios.get(
-          `http://localhost:9000/api/posts/${userId}`
+          `https://social-media-rest-apis.onrender.com/api/posts/${userId}`
         );
         setPost(response.data.post);
       } else {
@@ -58,7 +58,7 @@ const ProfilePosts = () => {
   const handleSave = async (editedPost) => {
     try {
       const response = await axios.put(
-        `http://localhost:9000/api/posts/${editedPost._id}`,
+        `https://social-media-rest-apis.onrender.com/api/posts/${editedPost._id}`,
         editedPost
       );
       if (response.status === 200) {
@@ -77,7 +77,7 @@ const ProfilePosts = () => {
   const handleDelete = async (postId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:9000/api/posts/${postId}`
+        `https://social-media-rest-apis.onrender.com/api/posts/${postId}`
       );
       if (response.status === 200) {
         fetchUserPost();
